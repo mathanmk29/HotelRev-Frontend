@@ -21,6 +21,8 @@ function GuestForm() {
     idNumber: "",
     notes: "",
   });
+  const [showCustomerDropdown, setShowCustomerDropdown] = useState(false);
+  const [customerSearch, setCustomerSearch] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -37,6 +39,18 @@ function GuestForm() {
     }
     setLoading(false);
   }, [id]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".customer-search")) {
+        setShowCustomerDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const validateForm = () => {
     if (!formData.customerId) {
@@ -58,10 +72,18 @@ function GuestForm() {
     }));
   };
 
+  const handleCustomerSelect = (customer) => {
+    setFormData((prev) => ({
+      ...prev,
+      customerId: customer.id,
+    }));
+    setShowCustomerDropdown(false);
+    setCustomerSearch("");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(null);
-
     if (!validateForm()) return;
 
     const guestData = {
@@ -83,6 +105,10 @@ function GuestForm() {
     }
   };
 
+  const filteredCustomers = customers.filter((customer) =>
+    customer.name.toLowerCase().includes(customerSearch.toLowerCase())
+  );
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -103,9 +129,7 @@ function GuestForm() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
-        <h1 className="text-2xl font-bold mb-6">
-          {id ? "Edit Guest" : "New Guest"}
-        </h1>
+        <h1 className="text-2xl font-bold mb-6">{id ? "Edit Guest" : "New Guest"}</h1>
 
         {error && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
@@ -117,9 +141,7 @@ function GuestForm() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Guest Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Guest Name
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Guest Name</label>
               <input
                 type="text"
                 name="name"
@@ -131,31 +153,53 @@ function GuestForm() {
             </div>
 
             {/* Customer Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Customer
-              </label>
-              <select
-                name="customerId"
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                value={formData.customerId}
-                onChange={handleChange}
-              >
-                <option value="">Select Customer</option>
-                {customers.map((customer) => (
-                  <option key={customer.id} value={customer.id}>
-                    {customer.name}
-                  </option>
-                ))}
-              </select>
+            <div className="relative customer-search">
+              <label className="block text-sm font-medium text-gray-700">Customer</label>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setShowCustomerDropdown((prev) => !prev)}
+                  className="mt-1 block w-full text-left rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 p-2 bg-white"
+                >
+                  {formData.customerId
+                    ? customers.find((c) => c.id === formData.customerId)?.name
+                    : "Select Customer"}
+                </button>
+                {showCustomerDropdown && (
+                  <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg">
+                    <input
+                      type="text"
+                      placeholder="Search customer..."
+                      value={customerSearch}
+                      onChange={(e) => setCustomerSearch(e.target.value)}
+                      className="w-full p-2 border-b border-gray-300"
+                      autoFocus
+                    />
+                    <ul className="max-h-60 overflow-auto">
+                      {filteredCustomers.length > 0 ? (
+                        filteredCustomers.map((customer) => (
+                          <li
+                            key={customer.id}
+                            onClick={() => handleCustomerSelect(customer)}
+                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          >
+                            {customer.name}
+                          </li>
+                        ))
+                      ) : (
+                        <li className="px-4 py-2 text-sm text-gray-500">
+                          No customers found
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Contact Information */}
+            {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="email"
                 name="email"
@@ -165,10 +209,9 @@ function GuestForm() {
               />
             </div>
 
+            {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Phone
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Phone</label>
               <input
                 type="tel"
                 name="phone"
@@ -178,11 +221,9 @@ function GuestForm() {
               />
             </div>
 
-            {/* Visit Dates */}
+            {/* Check-in Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Check-in Date
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Check-in Date</label>
               <input
                 type="date"
                 name="checkIn"
@@ -193,10 +234,9 @@ function GuestForm() {
               />
             </div>
 
+            {/* Check-out Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Check-out Date
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Check-out Date</label>
               <input
                 type="date"
                 name="checkOut"
@@ -207,11 +247,9 @@ function GuestForm() {
               />
             </div>
 
-            {/* Additional Information */}
+            {/* Relationship */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Relationship
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Relationship</label>
               <input
                 type="text"
                 name="relationship"
@@ -221,10 +259,9 @@ function GuestForm() {
               />
             </div>
 
+            {/* Notes */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Notes
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Notes</label>
               <textarea
                 name="notes"
                 rows={3}
