@@ -10,8 +10,8 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 
 // Dashboards
-import AdminDashboard from "./components/dashboard/AdminDashboard";
-import StaffDashboard from "./components/dashboard/StaffDashboard";
+// import AdminDashboard from "./components/dashboard/AdminDashboard";
+// import StaffDashboard from "./components/dashboard/StaffDashboard";
 
 // Rooms
 import RoomList from "./components/rooms/RoomList";
@@ -61,9 +61,7 @@ function App() {
         {/* Dashboard */}
         <Route
           path="dashboard"
-          element={
-            user?.role === "admin" ? <AdminDashboard /> : <StaffDashboard />
-          }
+          element={<Navigate to="/rooms" replace />}
         />
 
         {/* Rooms */}

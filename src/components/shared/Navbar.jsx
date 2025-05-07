@@ -25,7 +25,7 @@ const Navbar = ({ onMenuClick }) => {
               <Bars3Icon className="w-6 h-6" aria-hidden="true" />
             </button>
             <div className="flex items-center flex-shrink-0 ml-2 md:ml-0">
-              <Link to="/" className="flex items-center">
+              <Link to="/rooms" className="flex items-center">
                 <span className="text-2xl font-bold text-primary-700">Hotel Manager</span>
               </Link>
             </div>

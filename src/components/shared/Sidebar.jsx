@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import {
-  HomeIcon,
   UserGroupIcon,
   KeyIcon,
   UserIcon,
@@ -20,7 +19,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   const isAdmin = user?.role === 'admin'
   
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
     { name: 'Rooms', href: '/rooms', icon: KeyIcon },
     { name: 'Customers', href: '/customers', icon: UserGroupIcon },
     { name: 'Guests', href: '/guests', icon: UserIcon },
