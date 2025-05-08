@@ -225,7 +225,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <div className="flex flex-col w-64">
           <div className="flex flex-col flex-1 min-h-0 bg-gray-900 border-r border-gray-700">
             <div className="flex items-center justify-center flex-shrink-0 h-16 px-4 bg-primary-700">
-              <h1 className="text-xl font-bold text-white">Hotel Manager</h1>
+              <h1 className="text-xl font-bold text-white">Hotel Hub</h1>
             </div>
             <div className="flex flex-col flex-1">
               <nav className="flex-1 px-2 py-4 space-y-1">
