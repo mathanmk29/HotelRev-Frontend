@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -14,6 +14,7 @@ import { useAuth } from "../../hooks/useAuth.jsx";
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isAdmin = user?.role === "admin";
 
@@ -95,7 +96,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           <Menu.Item>
             {({ active }) => (
               <button
-                onClick={logout}
+                onClick={() => {
+                  logout();
+                  navigate('/');
+                }}
                 className={`${
                   active ? "bg-gray-700" : ""
                 } block w-full text-left px-4 py-2 text-sm text-gray-200`}

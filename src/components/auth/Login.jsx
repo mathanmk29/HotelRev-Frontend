@@ -1,23 +1,81 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.jsx";
 
 const Login = () => {
-  const { login, error } = useAuth();
+  const { login, error, user } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: ""
+  });
+  
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/rooms');
+    }
+  }, [user, navigate]);
+
+  // Validate email format
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) return "Email is required";
+    if (!emailRegex.test(email)) return "Please enter a valid email address";
+    return "";
+  };
+
+  // Validate password
+  const validatePassword = (password) => {
+    if (!password) return "Password is required";
+    if (password.length < 6) return "Password must be at least 6 characters";
+    return "";
+  };
+
+  // Handle input change and validate on the fly
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    
+    if (name === "email") {
+      setEmail(value);
+      setFormErrors(prev => ({...prev, email: value.trim() ? "" : "Email is required"}));
+    } else if (name === "password") {
+      setPassword(value);
+      setFormErrors(prev => ({...prev, password: value ? "" : "Password is required"}));
+    }
+  };
+
+  // Validate the form before submission
+  const validateForm = () => {
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+    
+    setFormErrors({
+      email: emailError,
+      password: passwordError
+    });
+    
+    return !emailError && !passwordError;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form before submission
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsLoading(true);
 
     const success = login(email, password);
 
     if (success) {
-      navigate("/dashboard");
+      navigate("/rooms");
     }
 
     setIsLoading(false);
@@ -55,9 +113,15 @@ const Login = () => {
                 autoComplete="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full px-3 py-2 mt-1 border border-gray-600 rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
+                onChange={handleInputChange}
+                onBlur={() => setFormErrors({...formErrors, email: validateEmail(email)})}
+                className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
+                  formErrors.email ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                }`}
               />
+              {formErrors.email && (
+                <p className="mt-1 text-sm text-red-400">{formErrors.email}</p>
+              )}
             </div>
 
             <div>
@@ -74,9 +138,15 @@ const Login = () => {
                 autoComplete="current-password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full px-3 py-2 mt-1 border border-gray-600 rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
+                onChange={handleInputChange}
+                onBlur={() => setFormErrors({...formErrors, password: validatePassword(password)})}
+                className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
+                  formErrors.password ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                }`}
               />
+              {formErrors.password && (
+                <p className="mt-1 text-sm text-red-400">{formErrors.password}</p>
+              )}
             </div>
           </div>
 
