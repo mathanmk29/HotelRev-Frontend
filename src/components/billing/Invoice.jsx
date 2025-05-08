@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { bookings } from "../../data/bookings";
 import { rooms } from "../../data/rooms";
 import { customers } from "../../data/customers";
+import PaymentModal from "./PaymentModal";
+import { updateBookingPayment } from "../../data/bookings";
 
 function Invoice() {
   const { id } = useParams();
@@ -10,6 +12,8 @@ function Invoice() {
   const [stayDuration, setStayDuration] = useState(0);
   const [totalRoomCost, setTotalRoomCost] = useState(0);
   const [error, setError] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState("pending");
 
   useEffect(() => {
     try {
@@ -53,6 +57,36 @@ function Invoice() {
       setError("Failed to load invoice data");
     }
   }, [id]);
+
+  const handlePaymentComplete = (updatedBooking) => {
+    console.log("Payment completed:", updatedBooking);
+    setShowPaymentModal(false);
+    setPaymentStatus("paid");
+    setInvoice((prev) => ({
+      ...prev,
+      paymentStatus: "paid",
+      paymentDetails: updatedBooking.paymentDetails,
+    }));
+
+    // Show success toast or notification
+    const successMessage = document.createElement("div");
+    successMessage.className =
+      "fixed bottom-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg";
+    successMessage.innerHTML = `
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm">Payment processed successfully!</p>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(successMessage);
+    setTimeout(() => successMessage.remove(), 3000);
+  };
 
   if (error) return <div className="p-4 text-red-500">{error}</div>;
   if (!invoice || !invoice.room)
@@ -236,9 +270,54 @@ function Invoice() {
               <span>Total Amount:</span>
               <span>${invoice.bill.total.toFixed(2)}</span>
             </div>
+
+            {/* Payment Status and Button */}
+            <div className="mt-6 flex justify-between items-center">
+              <div className="flex items-center">
+                <span
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                    paymentStatus === "paid"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
+                >
+                  {paymentStatus === "paid" ? "Paid" : "Pending Payment"}
+                </span>
+              </div>
+              {paymentStatus !== "paid" && (
+                <button
+                  onClick={() => setShowPaymentModal(true)}
+                  className="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 
+                            transition-colors duration-200 flex items-center space-x-2"
+                >
+                  <span>Process Payment</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 5h12a1 1 0 011 1v8a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zm0 2h12v4H4V7z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <PaymentModal
+          invoice={invoice}
+          onClose={() => setShowPaymentModal(false)}
+          onPaymentComplete={handlePaymentComplete}
+        />
+      )}
     </div>
   );
 }
