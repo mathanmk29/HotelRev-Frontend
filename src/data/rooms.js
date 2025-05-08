@@ -13,7 +13,6 @@ export const rooms = [
     features: ['TV', 'WiFi', 'Air Conditioning', 'Mini Bar'],
     status: 'available',
     floor: 1,
-    image: 'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg',
   },
   {
     id: 'room-2',
@@ -27,7 +26,6 @@ export const rooms = [
     features: ['TV', 'WiFi', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Sea View'],
     status: 'occupied',
     floor: 1,
-    image: 'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg',
   },
   {
     id: 'room-3',
@@ -41,7 +39,6 @@ export const rooms = [
     features: ['TV', 'WiFi', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Mountain View', 'Jacuzzi'],
     status: 'available',
     floor: 2,
-    image: 'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg',
   },
   {
     id: 'room-4',
@@ -56,7 +53,6 @@ export const rooms = [
     features: ['TV', 'WiFi', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Connecting Rooms'],
     status: 'maintenance',
     floor: 2,
-    image: 'https://images.pexels.com/photos/3634741/pexels-photo-3634741.jpeg',
   },
   {
     id: 'room-5',
@@ -70,7 +66,6 @@ export const rooms = [
     features: ['TV', 'WiFi', 'Air Conditioning', 'Mini Bar', 'Room Service', 'Sea View', 'Private Balcony', 'Jacuzzi', 'Dining Area'],
     status: 'available',
     floor: 3,
-    image: 'https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg',
   },
   {
     id: 'room-6',
@@ -84,7 +79,6 @@ export const rooms = [
     features: ['TV', 'WiFi', 'Air Conditioning', 'Mini Bar'],
     status: 'occupied',
     floor: 3,
-    image: 'https://images.pexels.com/photos/6284232/pexels-photo-6284232.jpeg',
   },
 ]
 
