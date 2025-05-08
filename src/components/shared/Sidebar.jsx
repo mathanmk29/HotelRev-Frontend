@@ -32,11 +32,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       <div>
         <Menu.Button
           className="w-full group flex items-center px-4 py-3 text-sm 
-          font-medium rounded-lg hover:bg-gray-50 transition-all duration-200"
+          font-medium rounded-lg hover:bg-gray-800 transition-all duration-200"
         >
           <div className="flex items-center flex-1">
             <div
-              className="flex-shrink-0 h-9 w-9 rounded-full bg-primary-100 
+              className="flex-shrink-0 h-9 w-9 rounded-full bg-primary-900 
               flex items-center justify-center"
             >
               <svg
@@ -55,10 +55,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               </svg>
             </div>
             <div className="ml-3 text-left">
-              <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+              <p className="text-sm font-medium text-white group-hover:text-white">
                 {user?.name || "My Profile"}
               </p>
-              <p className="text-xs text-gray-500 truncate">
+              <p className="text-xs text-gray-400 truncate">
                 {user?.email || "View profile"}
               </p>
             </div>
@@ -75,18 +75,18 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute bottom-full left-0 mb-2 w-48 py-1 origin-bottom-left bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="px-4 py-2 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-            <p className="text-xs text-gray-500">{user?.email}</p>
+        <Menu.Items className="absolute bottom-full left-0 mb-2 w-48 py-1 origin-bottom-left bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="px-4 py-2 border-b border-gray-700">
+            <p className="text-sm font-medium text-white">{user?.name}</p>
+            <p className="text-xs text-gray-400">{user?.email}</p>
           </div>
           <Menu.Item>
             {({ active }) => (
               <Link
                 to="/profile"
                 className={`${
-                  active ? "bg-gray-100" : ""
-                } block px-4 py-2 text-sm text-gray-700`}
+                  active ? "bg-gray-700" : ""
+                } block px-4 py-2 text-sm text-gray-200`}
               >
                 Your Profile
               </Link>
@@ -97,8 +97,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               <button
                 onClick={logout}
                 className={`${
-                  active ? "bg-gray-100" : ""
-                } block w-full text-left px-4 py-2 text-sm text-gray-700`}
+                  active ? "bg-gray-700" : ""
+                } block w-full text-left px-4 py-2 text-sm text-gray-200`}
               >
                 Sign out
               </button>
@@ -127,7 +127,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+            <div className="fixed inset-0 bg-black bg-opacity-75" />
           </Transition.Child>
 
           <div className="fixed inset-0 z-40 flex">
@@ -140,7 +140,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex flex-col flex-1 w-full max-w-xs bg-white">
+              <Dialog.Panel className="relative flex flex-col flex-1 w-full max-w-xs bg-gray-900">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"
@@ -184,8 +184,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                           to={item.href}
                           className={`${
                             isActive
-                              ? "bg-primary-50 text-primary-700"
-                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                              ? "bg-gray-800 text-primary-400"
+                              : "text-gray-300 hover:bg-gray-800 hover:text-white"
                           } group flex items-center px-2 py-2 text-base font-medium rounded-md`}
                           onClick={() => setIsOpen(false)}
                         >
@@ -203,7 +203,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                     })}
                   </nav>
                   {/* Add Profile Link at Bottom */}
-                  <div className="border-t border-gray-200 p-4 mt-auto">
+                  <div className="border-t border-gray-700 p-4 mt-auto">
                     <ProfileMenu />
                   </div>
                 </div>
@@ -219,7 +219,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Desktop Sidebar */}
       <div className="hidden md:flex md:flex-shrink-0">
         <div className="flex flex-col w-64">
-          <div className="flex flex-col flex-1 min-h-0 bg-white border-r border-gray-200">
+          <div className="flex flex-col flex-1 min-h-0 bg-gray-900 border-r border-gray-700">
             <div className="flex items-center justify-center flex-shrink-0 h-16 px-4 bg-primary-700">
               <h1 className="text-xl font-bold text-white">Hotel Manager</h1>
             </div>
@@ -236,8 +236,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                       to={item.href}
                       className={`${
                         isActive
-                          ? "bg-primary-50 text-primary-700"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                          ? "bg-gray-800 text-primary-400"
+                          : "text-gray-300 hover:bg-gray-800 hover:text-white"
                       } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
                     >
                       <item.icon
@@ -254,7 +254,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 })}
               </nav>
               {/* Add Profile Link at Bottom */}
-              <div className="border-t border-gray-200 p-4">
+              <div className="border-t border-gray-700 p-4">
                 <ProfileMenu />
               </div>
             </div>

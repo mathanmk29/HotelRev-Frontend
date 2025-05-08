@@ -12,13 +12,13 @@ const Navbar = ({ onMenuClick }) => {
   const { user, logout } = useAuth()
   
   return (
-    <nav className="bg-white border-b border-gray-200">
+    <nav className="bg-gray-900 border-b border-gray-700">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <button
               type="button"
-              className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md md:hidden hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+              className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md md:hidden hover:text-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
               onClick={onMenuClick}
             >
               <span className="sr-only">Open sidebar</span>
@@ -35,7 +35,7 @@ const Navbar = ({ onMenuClick }) => {
             {/* Notifications */}
             <button
               type="button"
-              className="p-1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              className="p-1 text-gray-400 bg-gray-900 rounded-full hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
             >
               <span className="sr-only">View notifications</span>
               <BellIcon className="w-6 h-6" aria-hidden="true" />
@@ -56,10 +56,10 @@ const Navbar = ({ onMenuClick }) => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="px-4 py-2 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-                    <p className="text-xs text-gray-500">{user?.email}</p>
+                <Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="px-4 py-2 border-b border-gray-700">
+                    <p className="text-sm font-medium text-white">{user?.name}</p>
+                    <p className="text-xs text-gray-400">{user?.email}</p>
                   </div>
                   
                   <Menu.Item>
@@ -93,8 +93,8 @@ const Navbar = ({ onMenuClick }) => {
                       <button
                         onClick={logout}
                         className={`${
-                          active ? 'bg-gray-100' : ''
-                        } block w-full text-left px-4 py-2 text-sm text-gray-700`}
+                          active ? 'bg-gray-700' : ''
+                        } block w-full text-left px-4 py-2 text-sm text-gray-200`}
                       >
                         Sign out
                       </button>

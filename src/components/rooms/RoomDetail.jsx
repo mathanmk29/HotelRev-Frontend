@@ -53,9 +53,9 @@ const RoomDetail = () => {
 
   if (!room) {
     return (
-      <div className="text-center p-12 bg-white rounded-lg shadow">
-        <h2 className="text-2xl font-bold text-gray-900">Room Not Found</h2>
-        <p className="mt-2 text-gray-500">
+      <div className="text-center p-12 bg-gray-800 rounded-lg shadow">
+        <h2 className="text-2xl font-bold text-white">Room Not Found</h2>
+        <p className="mt-2 text-gray-400">
           The room you're looking for doesn't exist.
         </p>
         <div className="mt-6">
@@ -95,14 +95,14 @@ const RoomDetail = () => {
             </svg>
             Back to Rooms
           </Link>
-          <h1 className="mt-2 text-2xl font-bold text-gray-900">
+          <h1 className="mt-2 text-2xl font-bold text-white">
             Room {room.number} Details
           </h1>
         </div>
         <div className="flex mt-4 space-x-3 md:mt-0">
           <button
             onClick={() => setEditMode(!editMode)}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+            className="inline-flex items-center px-4 py-2 border border-gray-600 shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           >
             {editMode ? "Cancel" : "Edit Room"}
           </button>
@@ -118,7 +118,7 @@ const RoomDetail = () => {
       </div>
 
       {/* Main Content */}
-      <div className="mt-6 bg-white rounded-lg shadow p-6">
+      <div className="mt-6 bg-gray-800 rounded-lg shadow p-6">
         {editMode ? (
           <div className="space-y-4">
             <div>
@@ -133,7 +133,7 @@ const RoomDetail = () => {
                 name="status"
                 value={formData.status}
                 onChange={handleFormChange}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
               >
                 {roomStatuses.map((status) => (
                   <option key={status.value} value={status.value}>
@@ -156,7 +156,7 @@ const RoomDetail = () => {
                 id="pricePerNight"
                 value={formData.pricePerNight}
                 onChange={handleFormChange}
-                className="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                className="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-600 bg-gray-700 text-white rounded-md"
               />
             </div>
 
@@ -164,7 +164,7 @@ const RoomDetail = () => {
               <button
                 type="button"
                 onClick={() => setEditMode(false)}
-                className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 mr-3"
+                className="bg-gray-700 py-2 px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 mr-3"
               >
                 Cancel
               </button>
@@ -181,10 +181,10 @@ const RoomDetail = () => {
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b pb-4">
               <div>
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-white">
                   Room {room.number}
                 </h2>
-                <p className="text-sm text-gray-500">{room.type}</p>
+                <p className="text-sm text-gray-400">{room.type}</p>
               </div>
               <span
                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.color.replace(
@@ -211,7 +211,7 @@ const RoomDetail = () => {
                     >
                       <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
-                    <span className="text-gray-700">Floor {room.floor}</span>
+                    <span className="text-gray-300">Floor {room.floor}</span>
                   </div>
                   <div className="flex items-center">
                     <svg
@@ -222,7 +222,7 @@ const RoomDetail = () => {
                     >
                       <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                     </svg>
-                    <span className="text-gray-700">
+                    <span className="text-gray-300">
                       Capacity: {room.capacity} people
                     </span>
                   </div>
@@ -239,19 +239,19 @@ const RoomDetail = () => {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className="text-gray-700">
+                    <span className="text-gray-300">
                       ${room.pricePerNight}/night
                     </span>
                   </div>
                 </div>
 
                 <div className="mt-6">
-                  <h4 className="text-sm font-medium text-gray-900">
+                  <h4 className="text-sm font-medium text-white">
                     Bed Configuration
                   </h4>
                   <div className="mt-2 space-y-1">
                     {Object.entries(room.beds).map(([type, count]) => (
-                      <div key={type} className="text-sm text-gray-700">
+                      <div key={type} className="text-sm text-gray-300">
                         {count} {type} bed{count > 1 ? "s" : ""}
                       </div>
                     ))}
@@ -267,7 +267,7 @@ const RoomDetail = () => {
                   {room.features.map((feature, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-700 text-gray-200"
                     >
                       {feature}
                     </span>
@@ -275,10 +275,10 @@ const RoomDetail = () => {
                 </div>
 
                 <div className="mt-6">
-                  <h3 className="text-lg font-medium text-gray-900">
+                  <h3 className="text-lg font-medium text-white">
                     Description
                   </h3>
-                  <p className="mt-2 text-gray-700">
+                  <p className="mt-2 text-gray-300">
                     This {room.type.toLowerCase()} room offers comfortable
                     accommodations for up to {room.capacity} guests. Perfect for{" "}
                     {room.capacity > 2

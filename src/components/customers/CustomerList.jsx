@@ -54,10 +54,10 @@ const CustomerList = () => {
         {/* Header */}
         <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-white">
               Customer Management
             </h1>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-400">
               Manage current and past hotel guests
             </p>
           </div>
@@ -109,7 +109,7 @@ const CustomerList = () => {
               id="search"
               value={filters.search}
               onChange={handleFilterChange}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
               placeholder="Search by name, email or phone..."
             />
           </div>
@@ -121,7 +121,7 @@ const CustomerList = () => {
               name="status"
               value={filters.status}
               onChange={handleFilterChange}
-              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="block w-full pl-3 pr-10 py-2 text-base border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
             >
               <option value="all">All Guests</option>
               <option value="current">Current Guests</option>
@@ -131,13 +131,13 @@ const CustomerList = () => {
         </div>
 
         {/* Customer Table */}
-        <div className="overflow-hidden bg-white shadow sm:rounded-md">
-          <ul className="divide-y divide-gray-200">
+        <div className="overflow-hidden bg-gray-800 shadow sm:rounded-md">
+          <ul className="divide-y divide-gray-700">
             {filteredCustomers.map((customer) => (
               <li key={customer.id}>
                 <Link
                   to={`/customers/${customer.id}`}
-                  className="block hover:bg-gray-50"
+                  className="block hover:bg-gray-700"
                 >
                   <div className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
@@ -146,15 +146,15 @@ const CustomerList = () => {
                           <div
                             className={`w-10 h-10 rounded-full flex items-center justify-center ${
                               customer.currentGuest
-                                ? "bg-green-100"
-                                : "bg-gray-100"
+                                ? "bg-green-900"
+                                : "bg-gray-700"
                             }`}
                           >
                             <span
                               className={`font-medium text-lg ${
                                 customer.currentGuest
-                                  ? "text-green-800"
-                                  : "text-gray-800"
+                                  ? "text-green-200"
+                                  : "text-gray-200"
                               }`}
                             >
                               {customer.name
@@ -169,14 +169,14 @@ const CustomerList = () => {
                             {customer.name}
                           </p>
                           <div className="flex mt-1">
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-400">
                               {customer.email}
                             </p>
                             <span
                               className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                 customer.currentGuest
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-gray-100 text-gray-800"
+                                  ? "bg-green-900 text-green-200"
+                                  : "bg-gray-700 text-gray-200"
                               }`}
                             >
                               {customer.currentGuest
@@ -187,7 +187,7 @@ const CustomerList = () => {
                         </div>
                       </div>
                       <div className="flex items-center">
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-400">
                           {customer.phone}
                         </p>
                         <svg
@@ -213,7 +213,7 @@ const CustomerList = () => {
         </div>
 
         {filteredCustomers.length === 0 && (
-          <div className="p-12 text-center bg-white rounded-lg shadow">
+          <div className="p-12 text-center bg-gray-800 rounded-lg shadow">
             <svg
               className="w-12 h-12 mx-auto text-gray-400"
               fill="none"
@@ -228,10 +228,10 @@ const CustomerList = () => {
                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <h3 className="mt-2 text-lg font-medium text-gray-900">
+            <h3 className="mt-2 text-lg font-medium text-white">
               No customers found
             </h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-400">
               Try adjusting your search or filter criteria.
             </p>
             <div className="mt-6">

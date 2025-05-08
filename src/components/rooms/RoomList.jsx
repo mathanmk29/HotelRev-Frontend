@@ -40,8 +40,8 @@ const RoomList = () => {
     <div className="p-4">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Rooms</h1>
-        <p className="text-gray-600">Manage and view room details</p>
+        <h1 className="text-2xl font-bold text-white">Rooms</h1>
+        <p className="text-gray-400">Manage and view room details</p>
       </div>
       
       {/* Search and Filter Bar */}
@@ -55,7 +55,7 @@ const RoomList = () => {
           </div>
           <input
             type="text"
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md leading-5 bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
             placeholder="Search by room number..."
             value={searchTerm}
             onChange={handleSearch}
@@ -67,7 +67,7 @@ const RoomList = () => {
           <select
             value={statusFilter}
             onChange={(e) => handleStatusFilter(e.target.value)}
-            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="block w-full pl-3 pr-10 py-2 text-base border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="all">All Statuses</option>
             {roomStatuses.map((status) => (
@@ -87,13 +87,13 @@ const RoomList = () => {
           return (
             <div
               key={room.id}
-              className="bg-white rounded-lg shadow overflow-hidden border border-gray-200 hover:shadow-md transition-shadow duration-200"
+              className="bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-700 hover:shadow-md transition-shadow duration-200"
             >
               <div className="p-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800">Room {room.number}</h3>
-                    <p className="text-sm text-gray-500">{room.type}</p>
+                    <h3 className="text-lg font-semibold text-white">Room {room.number}</h3>
+                    <p className="text-sm text-gray-400">{room.type}</p>
                   </div>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.color.replace('bg-', 'bg-opacity-90 text-white bg-')}`}>
                     {status.label}
@@ -101,19 +101,19 @@ const RoomList = () => {
                 </div>
                 
                 <div className="mt-3 space-y-1">
-                  <div className="flex items-center text-sm text-gray-700">
+                  <div className="flex items-center text-sm text-gray-300">
                     <svg className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
                     Floor {room.floor}
                   </div>
-                  <div className="flex items-center text-sm text-gray-700">
+                  <div className="flex items-center text-sm text-gray-300">
                     <svg className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                     </svg>
                     Capacity: {room.capacity}
                   </div>
-                  <div className="flex items-center text-sm text-gray-700">
+                  <div className="flex items-center text-sm text-gray-300">
                     <svg className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                     </svg>
@@ -123,12 +123,12 @@ const RoomList = () => {
                 
                 <div className="mt-3 flex flex-wrap gap-1">
                   {room.features.slice(0, 3).map((feature, index) => (
-                    <span key={index} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                    <span key={index} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-700 text-gray-200">
                       {feature}
                     </span>
                   ))}
                   {room.features.length > 3 && (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-700 text-gray-200">
                       +{room.features.length - 3} more
                     </span>
                   )}
@@ -137,7 +137,7 @@ const RoomList = () => {
                 <div className="mt-4">
                   <Link
                     to={`/rooms/${room.id}`}
-                    className="block w-full text-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="block w-full text-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                   >
                     View Details
                   </Link>
@@ -153,8 +153,8 @@ const RoomList = () => {
           <svg className="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <h3 className="mt-2 text-lg font-medium text-gray-900">No rooms found</h3>
-          <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
+          <h3 className="mt-2 text-lg font-medium text-white">No rooms found</h3>
+          <p className="mt-1 text-sm text-gray-400">Try adjusting your search or filter criteria.</p>
         </div>
       )}
     </div>

@@ -5,14 +5,14 @@ import { customers } from "../../data/customers";
 import { createBooking, calculateBill } from "../../data/bookings";
 
 const inputClassName =
-  "mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm " +
+  "mt-1 block w-full px-4 py-3 rounded-lg border border-gray-600 shadow-sm " +
   "transition-all duration-200 ease-in-out " +
   "focus:ring-2 focus:ring-primary-500 focus:border-primary-500 " +
-  "hover:border-gray-400 bg-white";
+  "hover:border-gray-500 bg-gray-700 text-white";
 
 const dropdownClassName =
-  "absolute z-10 w-full mt-1 bg-white border border-gray-300 " +
-  "rounded-lg shadow-lg max-h-60 overflow-auto divide-y divide-gray-100";
+  "absolute z-10 w-full mt-1 bg-gray-800 border border-gray-600 " +
+  "rounded-lg shadow-lg max-h-60 overflow-auto divide-y divide-gray-700 text-white";
 
 export default function RoomBookForm() {
   const { id } = useParams();
@@ -109,14 +109,14 @@ export default function RoomBookForm() {
   if (!room) return <div>Room not found</div>;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+    <div className="max-w-2xl mx-auto p-6 bg-gray-800 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-white">
         Book Room {room?.number}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="relative">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-200 mb-1">
             Select Customer
           </label>
           <input
@@ -140,7 +140,7 @@ export default function RoomBookForm() {
                     setSearchTerm(customer.name);
                     setShowDropdown(false);
                   }}
-                  className="px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-150"
+                  className="px-4 py-3 hover:bg-gray-700 cursor-pointer transition-colors duration-150"
                 >
                   {customer.name}
                 </div>
@@ -156,7 +156,7 @@ export default function RoomBookForm() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-200 mb-1">
               Check-in Date
             </label>
             <input
@@ -170,7 +170,7 @@ export default function RoomBookForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-200 mb-1">
               Check-out Date
             </label>
             <input
@@ -189,7 +189,7 @@ export default function RoomBookForm() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-200 mb-1">
               Adults
             </label>
             <input
@@ -204,7 +204,7 @@ export default function RoomBookForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-200 mb-1">
               Children
             </label>
             <input
@@ -220,7 +220,7 @@ export default function RoomBookForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-200 mb-1">
             Special Requests
           </label>
           <textarea
@@ -237,8 +237,8 @@ export default function RoomBookForm() {
           <button
             type="button"
             onClick={() => navigate(`/rooms/${id}`)}
-            className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 
-                     rounded-lg hover:bg-gray-50 transition-colors duration-200"
+            className="px-6 py-2.5 text-sm font-medium text-white bg-gray-700 border border-gray-600 
+                     rounded-lg hover:bg-gray-600 transition-colors duration-200"
             disabled={isSubmitting}
           >
             Cancel
@@ -256,8 +256,8 @@ export default function RoomBookForm() {
       </form>
 
       {error && (
-        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-600">{error}</p>
+        <div className="mt-4 p-4 bg-red-900 border border-red-800 rounded-lg">
+          <p className="text-red-300">{error}</p>
         </div>
       )}
     </div>
