@@ -1,7 +1,7 @@
-import { Fragment } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Fragment } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Dialog, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   UserGroupIcon,
   KeyIcon,
@@ -9,36 +9,42 @@ import {
   CreditCardIcon,
   ChartBarIcon,
   Cog6ToothIcon,
-} from '@heroicons/react/24/outline'
-import { useAuth } from '../../hooks/useAuth'
+  CalendarDaysIcon,
+} from "@heroicons/react/24/outline";
+import { useAuth } from "../../hooks/useAuth";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
-  const { user } = useAuth()
-  const location = useLocation()
-  
-  const isAdmin = user?.role === 'admin'
-  
+  const { user } = useAuth();
+  const location = useLocation();
+
+  const isAdmin = user?.role === "admin";
+
   const navigation = [
-    { name: 'Rooms', href: '/rooms', icon: KeyIcon },
-    { name: 'Customers', href: '/customers', icon: UserGroupIcon },
-    { name: 'Guests', href: '/guests', icon: UserIcon },
-    { name: 'Billing', href: '/billing', icon: CreditCardIcon },
-  ]
-  
+    { name: "Rooms", href: "/rooms", icon: KeyIcon },
+    { name: "Customers", href: "/customers", icon: UserGroupIcon },
+    { name: "Guests", href: "/guests", icon: UserIcon },
+    // { name: "Billing", href: "/billing", icon: CreditCardIcon }, // Commented out billing
+    { name: "Bookings", href: "/bookings", icon: CalendarDaysIcon },
+  ];
+
   const adminNavigation = [
-    { name: 'Reports', href: '/reports', icon: ChartBarIcon },
-    { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
-  ]
-  
-  const finalNavigation = isAdmin 
-    ? [...navigation, ...adminNavigation] 
-    : navigation
-  
+    { name: "Reports", href: "/reports", icon: ChartBarIcon },
+    { name: "Settings", href: "/settings", icon: Cog6ToothIcon },
+  ];
+
+  const finalNavigation = isAdmin
+    ? [...navigation, ...adminNavigation]
+    : navigation;
+
   return (
     <>
       {/* Mobile Sidebar */}
       <Transition.Root show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-40 md:hidden" onClose={setIsOpen}>
+        <Dialog
+          as="div"
+          className="relative z-40 md:hidden"
+          onClose={setIsOpen}
+        >
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -78,41 +84,49 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                       onClick={() => setIsOpen(false)}
                     >
                       <span className="sr-only">Close sidebar</span>
-                      <XMarkIcon className="w-6 h-6 text-white" aria-hidden="true" />
+                      <XMarkIcon
+                        className="w-6 h-6 text-white"
+                        aria-hidden="true"
+                      />
                     </button>
                   </div>
                 </Transition.Child>
-                
+
                 <div className="flex items-center justify-center flex-shrink-0 h-16 px-4 bg-primary-700">
-                  <h1 className="text-xl font-bold text-white">Hotel Manager</h1>
+                  <h1 className="text-xl font-bold text-white">
+                    Hotel Manager
+                  </h1>
                 </div>
-                
+
                 <div className="flex flex-col flex-1 h-0 overflow-y-auto">
                   <nav className="flex-1 px-2 py-4 space-y-1">
                     {finalNavigation.map((item) => {
-                      const isActive = location.pathname === item.href || 
-                                      location.pathname.startsWith(`${item.href}/`)
-                      
+                      const isActive =
+                        location.pathname === item.href ||
+                        location.pathname.startsWith(`${item.href}/`);
+
                       return (
                         <Link
                           key={item.name}
                           to={item.href}
                           className={`${
                             isActive
-                              ? 'bg-primary-50 text-primary-700'
-                              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                              ? "bg-primary-50 text-primary-700"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           } group flex items-center px-2 py-2 text-base font-medium rounded-md`}
                           onClick={() => setIsOpen(false)}
                         >
                           <item.icon
                             className={`${
-                              isActive ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-500'
+                              isActive
+                                ? "text-primary-600"
+                                : "text-gray-400 group-hover:text-gray-500"
                             } mr-4 flex-shrink-0 h-6 w-6`}
                             aria-hidden="true"
                           />
                           {item.name}
                         </Link>
-                      )
+                      );
                     })}
                   </nav>
                 </div>
@@ -135,28 +149,31 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             <div className="flex flex-col flex-1 overflow-y-auto">
               <nav className="flex-1 px-2 py-4 space-y-1">
                 {finalNavigation.map((item) => {
-                  const isActive = location.pathname === item.href || 
-                                    location.pathname.startsWith(`${item.href}/`)
-                  
+                  const isActive =
+                    location.pathname === item.href ||
+                    location.pathname.startsWith(`${item.href}/`);
+
                   return (
                     <Link
                       key={item.name}
                       to={item.href}
                       className={`${
                         isActive
-                          ? 'bg-primary-50 text-primary-700'
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                          ? "bg-primary-50 text-primary-700"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                       } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
                     >
                       <item.icon
                         className={`${
-                          isActive ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-500'
+                          isActive
+                            ? "text-primary-600"
+                            : "text-gray-400 group-hover:text-gray-500"
                         } mr-3 flex-shrink-0 h-6 w-6`}
                         aria-hidden="true"
                       />
                       {item.name}
                     </Link>
-                  )
+                  );
                 })}
               </nav>
             </div>
@@ -164,7 +181,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

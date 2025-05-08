@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { updateBookingPayment } from "../../data/bookings";
 
 const PaymentModal = ({ invoice, onClose, onPaymentComplete }) => {
   const [paymentMethod, setPaymentMethod] = useState("card");
@@ -13,36 +12,14 @@ const PaymentModal = ({ invoice, onClose, onPaymentComplete }) => {
     setError(null);
 
     try {
-      // Create payment details
-      const paymentDetails = {
-        method: paymentMethod,
-        amount: invoice.bill.total,
-        transactionId: `TXN-${Date.now()}`,
-        status: "completed",
-        processedAt: new Date().toISOString(),
-      };
-
-      // Update booking with payment details
-      const updatedBooking = updateBookingPayment(
-        invoice.billingId,
-        paymentDetails
-      );
-
-      if (!updatedBooking) {
-        throw new Error("Failed to process payment");
-      }
-
-      // Wait for a second to simulate processing
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Simply show success and trigger completion
       setSuccess(true);
-
-      // Auto close after showing success message
       setTimeout(() => {
-        onPaymentComplete(updatedBooking);
+        onPaymentComplete({ status: "confirmed" });
       }, 2000);
     } catch (err) {
-      console.error("Payment Error:", err);
-      setError("Payment processing failed. Please try again.");
+      console.error("Error:", err);
+      setError("Processing failed. Please try again.");
     } finally {
       setLoading(false);
     }

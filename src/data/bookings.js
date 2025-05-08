@@ -1,6 +1,5 @@
 import { rooms } from "./rooms";
 import { customerBooking } from "./customers";
-import { customers } from "./customers"; // Add this import
 
 export const bookings = [];
 
@@ -21,34 +20,69 @@ export const calculateBill = (checkIn, checkOut, pricePerNight) => {
   };
 };
 
-export const updateBookingPayment = (billingId, paymentDetails) => {
-  const bookingIndex = bookings.findIndex((b) => b.billingId === billingId);
+export const createBooking = (bookingData) => {
+  // Generate a consistent ID format
+  const bookingId = `booking-${bookings.length + 1}`;
+
+  const newBooking = {
+    id: bookingId, // Use the same format as in mock data
+    ...bookingData,
+    createdAt: new Date().toISOString(),
+    status: "confirmed",
+    bookingId: bookingId, // Add this for consistency
+    extraCharges: 0,
+  };
+
+  // Update room status
+  const room = rooms.find((r) => r.id === bookingData.roomId);
+  if (room) {
+    room.status = "occupied";
+  }
+
+  // Add to main bookings array
+  bookings.push(newBooking);
+
+  // Add to customer booking history with consistent ID format
+  const customerBookingIndex = customerBooking.findIndex(
+    (cb) => cb.customerId === bookingData.customerId
+  );
+
+  const bookingHistoryEntry = {
+    id: bookingId, // Use consistent ID format
+    checkIn: newBooking.checkIn,
+    checkOut: newBooking.checkOut,
+    roomType: newBooking.roomType,
+    roomId: newBooking.roomId,
+    totalAmount: newBooking.bill.total,
+    status: "confirmed",
+  };
+
+  if (customerBookingIndex !== -1) {
+    customerBooking[customerBookingIndex].bookings.push(bookingHistoryEntry);
+  } else {
+    customerBooking.push({
+      customerId: bookingData.customerId,
+      bookings: [bookingHistoryEntry],
+    });
+  }
+
+  return newBooking;
+};
+
+export const updateBookingStatus = (bookingId, status) => {
+  const bookingIndex = bookings.findIndex((b) => b.bookingId === bookingId);
 
   if (bookingIndex !== -1) {
     const currentBooking = bookings[bookingIndex];
 
     const updatedBooking = {
       ...currentBooking,
-      paymentStatus: "paid",
-      paymentDetails: {
-        ...paymentDetails,
-        paidAt: new Date().toISOString(),
-      },
+      status,
+      confirmedAt: status === "confirmed" ? new Date().toISOString() : null,
     };
 
     // Update main bookings array
     bookings[bookingIndex] = updatedBooking;
-
-    // Update customer status to currentGuest
-    const customerIndex = customers.findIndex(
-      (c) => c.id === currentBooking.customerId
-    );
-    if (customerIndex !== -1) {
-      customers[customerIndex] = {
-        ...customers[customerIndex],
-        currentGuest: true,
-      };
-    }
 
     // Update customer booking history
     const customerBookingIndex = customerBooking.findIndex(
@@ -61,11 +95,10 @@ export const updateBookingPayment = (billingId, paymentDetails) => {
       ].bookings.findIndex((b) => b.id === updatedBooking.id);
 
       if (bookingInHistory !== -1) {
-        // Update existing booking in customer history
         customerBooking[customerBookingIndex].bookings[bookingInHistory] = {
           ...customerBooking[customerBookingIndex].bookings[bookingInHistory],
-          paymentStatus: "paid",
-          paidAt: paymentDetails.paidAt,
+          status,
+          confirmedAt: updatedBooking.confirmedAt,
         };
       }
     }
@@ -73,59 +106,4 @@ export const updateBookingPayment = (billingId, paymentDetails) => {
     return updatedBooking;
   }
   return null;
-};
-
-export const createBooking = (bookingData) => {
-  const newBooking = {
-    id: `booking-${bookings.length + 1}`,
-    ...bookingData,
-    createdAt: new Date().toISOString(),
-    status: "confirmed",
-    billingId: `bill-${bookings.length + 1}`,
-    extraCharges: 0,
-    paymentStatus: "pending", // Add initial payment status
-  };
-
-  // Update room status
-  const room = rooms.find((r) => r.id === bookingData.roomId);
-  if (room) {
-    room.status = "occupied";
-  }
-
-  // Add to main bookings array
-  bookings.push(newBooking);
-
-  // Add to customer booking history
-  const customerBookingIndex = customerBooking.findIndex(
-    (cb) => cb.customerId === bookingData.customerId
-  );
-
-  if (customerBookingIndex !== -1) {
-    customerBooking[customerBookingIndex].bookings.push({
-      id: newBooking.id,
-      checkIn: newBooking.checkIn,
-      checkOut: newBooking.checkOut,
-      roomType: newBooking.roomType,
-      roomId: newBooking.roomId,
-      totalAmount: newBooking.bill.total,
-      paymentStatus: "pending",
-    });
-  } else {
-    customerBooking.push({
-      customerId: bookingData.customerId,
-      bookings: [
-        {
-          id: newBooking.id,
-          checkIn: newBooking.checkIn,
-          checkOut: newBooking.checkOut,
-          roomType: newBooking.roomType,
-          roomId: newBooking.roomId,
-          totalAmount: newBooking.bill.total,
-          paymentStatus: "pending",
-        },
-      ],
-    });
-  }
-
-  return newBooking;
 };

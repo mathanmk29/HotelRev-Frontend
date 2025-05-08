@@ -57,15 +57,16 @@ function Invoice() {
   }, [id]);
 
   const handlePaymentComplete = (updatedBooking) => {
+    console.log("Payment completed:", updatedBooking);
     setShowPaymentModal(false);
-    setPaymentStatus("confirmed"); // Change to 'confirmed' instead of 'paid'
+    setPaymentStatus("paid");
     setInvoice((prev) => ({
       ...prev,
-      status: "confirmed", // Change paymentStatus to status
-      updatedAt: new Date().toISOString(),
+      paymentStatus: "paid",
+      paymentDetails: updatedBooking.paymentDetails,
     }));
 
-    // Show success notification
+    // Show success toast or notification
     const successMessage = document.createElement("div");
     successMessage.className =
       "fixed bottom-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg";

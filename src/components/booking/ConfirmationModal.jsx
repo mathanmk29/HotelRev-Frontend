@@ -1,0 +1,70 @@
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+
+const ConfirmationModal = ({ bookingDetails }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate("/bookings");
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
+  const handleClose = () => {
+    navigate("/bookings");
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm"></div>
+
+        <div className="relative transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all sm:w-full sm:max-w-lg">
+          {/* Close Button */}
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-500"
+          >
+            <XMarkIcon className="h-6 w-6" />
+          </button>
+
+          <div className="p-12">
+            {/* Success Icon */}
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-green-100">
+              <svg
+                className="h-12 w-12 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+
+            <div className="mt-8 text-center">
+              <h3 className="text-3xl font-semibold text-gray-900">
+                Booking Created!
+              </h3>
+              <p className="mt-4 text-lg text-gray-600">
+                Your booking has been successfully created
+              </p>
+              <p className="mt-2 text-sm text-gray-500">
+                Redirecting to bookings list...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ConfirmationModal;

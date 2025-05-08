@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { bookings } from "../../data/bookings";
-import { rooms } from "../../data/rooms";
 import { customers } from "../../data/customers";
+import { rooms } from "../../data/rooms";
+import ConfirmationModal from "./ConfirmationModal";
 
-function Invoice() {
+function BookingConfirmation() {
   const { id } = useParams();
-  const [invoice, setInvoice] = useState(null);
-  const [stayDuration, setStayDuration] = useState(0);
-  const [totalRoomCost, setTotalRoomCost] = useState(0);
+  const navigate = useNavigate();
+  const [bookingDetails, setBookingDetails] = useState(null);
   const [error, setError] = useState(null);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState("pending");
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [bookingStatus, setBookingStatus] = useState("confirmed"); // Changed from "pending"
 
   useEffect(() => {
     try {
-      console.log("Searching for booking with ID:", id);
-      const booking = bookings.find((b) => b.billingId === id);
-      console.log("Found booking:", booking);
-
+      const booking = bookings.find((b) => b.bookingId === id);
       if (!booking) {
         setError("Booking not found");
         return;
@@ -32,37 +29,24 @@ function Invoice() {
         return;
       }
 
-      // Use the price from booking data instead of room data
-      const pricePerNight = booking.pricePerNight || room.pricePerNight;
-      setStayDuration(booking.bill.nights);
-      setTotalRoomCost(booking.bill.roomCharge);
-
-      const invoiceData = {
+      setBookingDetails({
         ...booking,
-        room: {
-          ...room,
-          price: pricePerNight, // Use stored price from booking
-        },
+        room,
         customer,
-        bill: booking.bill,
-        extraCharges: booking.extraCharges || 0,
-      };
-
-      console.log("Setting invoice data:", invoiceData);
-      setInvoice(invoiceData);
+      });
     } catch (err) {
-      console.error("Error in Invoice component:", err);
-      setError("Failed to load invoice data");
+      console.error("Error in BookingConfirmation:", err);
+      setError("Failed to load booking data");
     }
   }, [id]);
 
-  const handlePaymentComplete = (updatedBooking) => {
-    setShowPaymentModal(false);
-    setPaymentStatus("confirmed"); // Change to 'confirmed' instead of 'paid'
-    setInvoice((prev) => ({
+  const handleConfirmationComplete = (updatedBooking) => {
+    setShowConfirmModal(false);
+    setBookingStatus("confirmed");
+    setBookingDetails((prev) => ({
       ...prev,
-      status: "confirmed", // Change paymentStatus to status
-      updatedAt: new Date().toISOString(),
+      status: "confirmed",
+      confirmedAt: new Date().toISOString(),
     }));
 
     // Show success notification
@@ -77,7 +61,7 @@ function Invoice() {
           </svg>
         </div>
         <div class="ml-3">
-          <p class="text-sm">Payment processed successfully!</p>
+          <p class="text-sm">Booking confirmed successfully!</p>
         </div>
       </div>
     `;
@@ -86,23 +70,27 @@ function Invoice() {
   };
 
   if (error) return <div className="p-4 text-red-500">{error}</div>;
-  if (!invoice || !invoice.room)
-    return <div className="p-4">Loading invoice data...</div>;
+  if (!bookingDetails || !bookingDetails.room)
+    return <div className="p-4">Loading booking data...</div>;
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="bg-white rounded-lg shadow-lg p-6">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-2xl font-bold">Invoice #{id}</h1>
+            <h1 className="text-2xl font-bold">Booking Confirmation #{id}</h1>
             <p className="text-gray-500">
-              Created: {new Date(invoice.createdAt).toLocaleDateString()}
+              Created: {new Date(bookingDetails.createdAt).toLocaleDateString()}
             </p>
           </div>
           <div className="text-right">
-            <p className="font-semibold">{invoice.customer.name}</p>
-            <p className="text-sm text-gray-600">{invoice.customer.email}</p>
-            <p className="text-sm text-gray-600">{invoice.customer.phone}</p>
+            <p className="font-semibold">{bookingDetails.customer.name}</p>
+            <p className="text-sm text-gray-600">
+              {bookingDetails.customer.email}
+            </p>
+            <p className="text-sm text-gray-600">
+              {bookingDetails.customer.phone}
+            </p>
           </div>
         </div>
 
@@ -128,9 +116,11 @@ function Invoice() {
                   </div>
                   <div>
                     <p className="text-lg font-medium text-gray-900">
-                      Room {invoice.room.number}
+                      Room {bookingDetails.room.number}
                     </p>
-                    <p className="text-sm text-gray-600">{invoice.room.type}</p>
+                    <p className="text-sm text-gray-600">
+                      {bookingDetails.room.type}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -153,14 +143,16 @@ function Invoice() {
                   </div>
                   <div>
                     <p className="text-lg font-medium text-gray-900">
-                      {invoice.adults + invoice.children} Guest
-                      {invoice.adults + invoice.children !== 1 ? "s" : ""}
+                      {bookingDetails.adults + bookingDetails.children} Guest
+                      {bookingDetails.adults + bookingDetails.children !== 1
+                        ? "s"
+                        : ""}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {invoice.adults} Adult
-                      {invoice.adults !== 1 ? "s" : ""}
-                      {invoice.children > 0
-                        ? `, ${invoice.children} Children`
+                      {bookingDetails.adults} Adult
+                      {bookingDetails.adults !== 1 ? "s" : ""}
+                      {bookingDetails.children > 0
+                        ? `, ${bookingDetails.children} Children`
                         : ""}
                     </p>
                   </div>
@@ -189,12 +181,15 @@ function Invoice() {
                   </div>
                   <div>
                     <p className="text-lg font-medium text-gray-900">
-                      {new Date(invoice.checkIn).toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
+                      {new Date(bookingDetails.checkIn).toLocaleDateString(
+                        "en-US",
+                        {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        }
+                      )}
                     </p>
                     <p className="text-sm text-gray-600">3:00 PM</p>
                   </div>
@@ -223,12 +218,15 @@ function Invoice() {
                   </div>
                   <div>
                     <p className="text-lg font-medium text-gray-900">
-                      {new Date(invoice.checkOut).toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
+                      {new Date(bookingDetails.checkOut).toLocaleDateString(
+                        "en-US",
+                        {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        }
+                      )}
                     </p>
                     <p className="text-sm text-gray-600">11:00 AM</p>
                   </div>
@@ -239,84 +237,89 @@ function Invoice() {
         </div>
 
         <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">Payment Summary</h2>
+          <h2 className="text-lg font-semibold mb-4">Booking Summary</h2>
           <div className="border-t pt-4 space-y-2">
             <div className="flex justify-between">
               <span>Room Rate (per night):</span>
-              <span>${(invoice.room.price || 0).toFixed(2)}</span>
+              <span>${(bookingDetails.room.price || 0).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span>Number of Nights:</span>
-              <span>{invoice.bill.nights} nights</span>
+              <span>{bookingDetails.bill.nights} nights</span>
             </div>
             <div className="flex justify-between">
               <span>Room Total:</span>
-              <span>${invoice.bill.roomCharge.toFixed(2)}</span>
+              <span>${bookingDetails.bill.roomCharge.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax (10%):</span>
-              <span>${invoice.bill.tax.toFixed(2)}</span>
+              <span>${bookingDetails.bill.tax.toFixed(2)}</span>
             </div>
-            {invoice.extraCharges > 0 && (
+            {bookingDetails.extraCharges > 0 && (
               <div className="flex justify-between">
                 <span>Additional Charges:</span>
-                <span>${invoice.extraCharges.toFixed(2)}</span>
+                <span>${bookingDetails.extraCharges.toFixed(2)}</span>
               </div>
             )}
             <div className="border-t pt-2 flex justify-between font-bold">
               <span>Total Amount:</span>
-              <span>${invoice.bill.total.toFixed(2)}</span>
+              <span>${bookingDetails.bill.total.toFixed(2)}</span>
             </div>
 
-            {/* Payment Status and Button */}
+            {/* Booking Status and Button */}
             <div className="mt-6 flex justify-between items-center">
               <div className="flex items-center">
                 <span
                   className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                    paymentStatus === "paid"
+                    bookingStatus === "confirmed"
                       ? "bg-green-100 text-green-800"
                       : "bg-yellow-100 text-yellow-800"
                   }`}
                 >
-                  {paymentStatus === "paid" ? "Paid" : "Pending Payment"}
+                  {bookingStatus === "confirmed"
+                    ? "Confirmed"
+                    : "Pending Confirmation"}
                 </span>
               </div>
-              {paymentStatus !== "paid" && (
-                <button
-                  onClick={() => setShowPaymentModal(true)}
-                  className="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 
-                            transition-colors duration-200 flex items-center space-x-2"
-                >
-                  <span>Process Payment</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4 5h12a1 1 0 011 1v8a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zm0 2h12v4H4V7z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              )}
             </div>
           </div>
         </div>
+
+        {/* Add Confirmation Button */}
+        <div className="mt-8 flex justify-end">
+          <button
+            onClick={() => setShowConfirmModal(true)}
+            className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 
+                     transition-colors duration-200 flex items-center space-x-2"
+          >
+            <span>Confirm Booking</span>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Payment Modal */}
-      {showPaymentModal && (
-        <PaymentModal
-          invoice={invoice}
-          onClose={() => setShowPaymentModal(false)}
-          onPaymentComplete={handlePaymentComplete}
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <ConfirmationModal
+          bookingDetails={bookingDetails} // Pass the full bookingDetails object
+          onClose={() => setShowConfirmModal(false)}
+          onConfirmationComplete={handleConfirmationComplete}
         />
       )}
     </div>
   );
 }
 
-export default Invoice;
+export default BookingConfirmation;

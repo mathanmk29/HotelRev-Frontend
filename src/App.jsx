@@ -25,6 +25,11 @@ import GuestList from "./components/guests/GuestList";
 import GuestForm from "./components/guests/GuestForm";
 import GuestDetail from "./components/guests/GuestDetail";
 
+// Bookings
+import BookingList from "./components/booking/BookingList";
+import BookingDetails from "./components/booking/BookingDetails";
+import BookingConfirmation from "./components/booking/BookingConfirmation";
+
 // Billing
 import BillingList from "./components/billing/BillingList";
 import Invoice from "./components/billing/Invoice";
@@ -78,10 +83,22 @@ function App() {
         <Route path="guests/:id" element={<GuestDetail />} />
         <Route path="guests/edit/:id" element={<GuestForm />} />
 
-        {/* Billing */}
-        <Route path="billing" element={<BillingList />} />
+        {/* Billing Routes - Commented out */}
+        {/* <Route path="billing" element={<BillingList />} />
         <Route path="billing/:id" element={<Invoice />} />
-        <Route path="billing/:id/details" element={<BillingDetails />} />
+        <Route path="billing/:id/details" element={<BillingDetails />} /> */}
+
+        {/* Booking Routes */}
+        <Route path="bookings" element={<BookingList />} />
+        <Route path="bookings/:id/details" element={<BookingDetails />} />
+        <Route
+          path="bookings/:id/confirmation"
+          element={<BookingConfirmation />}
+        />
+        <Route
+          path="bookings/new/:roomId/confirmation"
+          element={<BookingConfirmation />}
+        />
       </Route>
 
       {/* Catch-all route */}
