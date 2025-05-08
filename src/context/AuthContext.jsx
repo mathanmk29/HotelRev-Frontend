@@ -1,54 +1,54 @@
-import { createContext, useState, useEffect } from 'react'
-import { users } from '../data/users'
+import { createContext, useState, useEffect } from "react";
+import { users } from "../data/users";
 
-export const AuthContext = createContext(null)
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Check if user is stored in localStorage
-    const storedUser = localStorage.getItem('hotelUser')
+    const storedUser = localStorage.getItem("hotelUser");
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser))
+        setUser(JSON.parse(storedUser));
       } catch (e) {
-        console.error('Failed to parse stored user', e)
-        localStorage.removeItem('hotelUser')
+        console.error("Failed to parse stored user", e);
+        localStorage.removeItem("hotelUser");
       }
     }
-    setLoading(false)
-  }, [])
+    setLoading(false);
+  }, []);
 
   const login = (email, password) => {
-    setError(null)
-    
+    setError(null);
+
     // Find user by email and password
     const foundUser = users.find(
       (u) => u.email === email && u.password === password
-    )
-    
+    );
+
     if (foundUser) {
       // Remove password from stored user data
-      const { password, ...userWithoutPassword } = foundUser
-      setUser(userWithoutPassword)
-      localStorage.setItem('hotelUser', JSON.stringify(userWithoutPassword))
-      return true
+      const { password, ...userWithoutPassword } = foundUser;
+      setUser(userWithoutPassword);
+      localStorage.setItem("hotelUser", JSON.stringify(userWithoutPassword));
+      return true;
     } else {
-      setError('Invalid email or password')
-      return false
+      setError("Invalid email or password");
+      return false;
     }
-  }
+  };
 
-  const register = (name, email, password, role = 'staff') => {
-    setError(null)
-    
+  const register = (name, email, password, role = "staff") => {
+    setError(null);
+
     // Check if user already exists
     if (users.some((u) => u.email === email)) {
-      setError('User with this email already exists')
-      return false
+      setError("User with this email already exists");
+      return false;
     }
 
     // In a real app, this would be an API call to register the user
@@ -59,18 +59,31 @@ export const AuthProvider = ({ children }) => {
       email,
       role,
       createdAt: new Date().toISOString(),
-    }
-    
+    };
+
     // Remove password from stored user data
-    setUser(newUser)
-    localStorage.setItem('hotelUser', JSON.stringify(newUser))
-    return true
-  }
+    setUser(newUser);
+    localStorage.setItem("hotelUser", JSON.stringify(newUser));
+    return true;
+  };
 
   const logout = () => {
-    setUser(null)
-    localStorage.removeItem('hotelUser')
-  }
+    setUser(null);
+    localStorage.removeItem("hotelUser");
+  };
+
+  const updateUserProfile = (userData) => {
+    try {
+      // In a real app, this would be an API call
+      // For demo, we'll just update the local state
+      const updatedUser = { ...user, ...userData };
+      setUser(updatedUser);
+      localStorage.setItem("hotelUser", JSON.stringify(updatedUser));
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: "Failed to update profile" };
+    }
+  };
 
   const value = {
     user,
@@ -79,7 +92,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-  }
+    updateUserProfile,
+  };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};

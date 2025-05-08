@@ -25,15 +25,18 @@ const UserProfile = () => {
     return null;
   };
 
-  const handleSave = () => {
-    const error = validateForm();
-    if (error) return setError(error);
+  const handleSave = async () => {
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
     const userData = { ...formData };
     if (!userData.password) delete userData.password;
     delete userData.confirmPassword;
 
-    const result = updateUserProfile(userData);
+    const result = await updateUserProfile(userData);
     if (result.success) {
       setEditMode(false);
       setError(null);
