@@ -1,17 +1,24 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { customers } from "../../data/customers"; // Add this import
 
 const ConfirmationModal = ({ bookingDetails }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Update customer's currentGuest status
+    const customer = customers.find((c) => c.id === bookingDetails.customer.id);
+    if (customer) {
+      customer.currentGuest = true;
+    }
+
     const timer = setTimeout(() => {
       navigate("/bookings");
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, [navigate, bookingDetails]);
 
   const handleClose = () => {
     navigate("/bookings");

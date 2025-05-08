@@ -17,7 +17,7 @@ import RoomBookForm from "./components/rooms/RoomBookForm";
 // Customers
 import CustomerList from "./components/customers/CustomerList";
 import CustomerDetail from "./components/customers/CustomerDetail";
-import CustomerHistory from "./components/customers/CustomerHistory";
+// import CustomerHistory from "./components/customers/#CustomerHistory";
 import CustomerForm from "./components/customers/CustomerForm";
 
 // Guests
@@ -31,9 +31,9 @@ import BookingDetails from "./components/booking/BookingDetails";
 import BookingConfirmation from "./components/booking/BookingConfirmation";
 
 // Billing
-import BillingList from "./components/billing/BillingList";
-import Invoice from "./components/billing/Invoice";
-import BillingDetails from "./components/billing/BillingDetails";
+// import BillingList from "./components/billing/BillingList";
+// import Invoice from "./components/billing/Invoice";
+// import BillingDetails from "./components/billing/BillingDetails";
 
 function App() {
   const { user, loading } = useAuth();
@@ -75,7 +75,7 @@ function App() {
         <Route path="customers/new" element={<CustomerForm />} />
         <Route path="customers/edit/:id" element={<CustomerForm />} />
         <Route path="customers/:id" element={<CustomerDetail />} />
-        <Route path="customers/:id/history" element={<CustomerHistory />} />
+        {/* <Route path="customers/:id/history" element={<CustomerHistory />} /> */}
 
         {/* Guests */}
         <Route path="guests" element={<GuestList />} />

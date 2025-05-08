@@ -160,3 +160,12 @@ export const getCustomerBookingById = (customerId) => {
     }
   );
 };
+
+export const updateCustomerStatus = (customerId, isCurrentGuest) => {
+  const customerIndex = customers.findIndex((c) => c.id === customerId);
+  if (customerIndex !== -1) {
+    customers[customerIndex].currentGuest = isCurrentGuest;
+    return customers[customerIndex];
+  }
+  return null;
+};

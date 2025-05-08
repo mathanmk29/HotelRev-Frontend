@@ -3,6 +3,12 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { addGuest, updateGuest, getGuestById } from "../../data/guests";
 import { customers } from "../../data/customers";
 
+const inputClassName = `mt-1 block w-full px-4 py-2.5 rounded-lg border border-gray-300
+  focus:ring-2 focus:ring-primary-500 focus:border-primary-500
+  hover:border-gray-400 transition-colors duration-200
+  placeholder-gray-400 bg-white text-gray-900
+  disabled:bg-gray-50 disabled:text-gray-500`;
+
 function GuestForm() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,10 +25,9 @@ function GuestForm() {
     idVerified: false,
     idType: "",
     idNumber: "",
-    notes: "",
   });
+  const [customerSearchTerm, setCustomerSearchTerm] = useState("");
   const [showCustomerDropdown, setShowCustomerDropdown] = useState(false);
-  const [customerSearch, setCustomerSearch] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -40,25 +45,13 @@ function GuestForm() {
     setLoading(false);
   }, [id]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest(".customer-search")) {
-        setShowCustomerDropdown(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const filteredCustomers = customers.filter((customer) =>
+    customer.name.toLowerCase().includes(customerSearchTerm.toLowerCase())
+  );
 
   const validateForm = () => {
     if (!formData.customerId) {
       setError("Please select a customer");
-      return false;
-    }
-    if (new Date(formData.checkOut) <= new Date(formData.checkIn)) {
-      setError("Check-out date must be after check-in date");
       return false;
     }
     return true;
@@ -77,8 +70,8 @@ function GuestForm() {
       ...prev,
       customerId: customer.id,
     }));
+    setCustomerSearchTerm(customer.name);
     setShowCustomerDropdown(false);
-    setCustomerSearch("");
   };
 
   const handleSubmit = (e) => {
@@ -105,9 +98,18 @@ function GuestForm() {
     }
   };
 
-  const filteredCustomers = customers.filter((customer) =>
-    customer.name.toLowerCase().includes(customerSearch.toLowerCase())
-  );
+  // Update the click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".customer-search")) {
+        setShowCustomerDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -129,7 +131,9 @@ function GuestForm() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
-        <h1 className="text-2xl font-bold mb-6">{id ? "Edit Guest" : "New Guest"}</h1>
+        <h1 className="text-2xl font-bold mb-6">
+          {id ? "Edit Guest" : "New Guest"}
+        </h1>
 
         {error && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
@@ -141,53 +145,55 @@ function GuestForm() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Guest Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Guest Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Guest Name
+              </label>
               <input
                 type="text"
                 name="name"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                className={inputClassName}
                 value={formData.name}
                 onChange={handleChange}
+                placeholder="Enter guest name"
               />
             </div>
 
             {/* Customer Selection */}
             <div className="relative customer-search">
-              <label className="block text-sm font-medium text-gray-700">Customer</label>
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setShowCustomerDropdown((prev) => !prev)}
-                  className="mt-1 block w-full text-left rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 p-2 bg-white"
-                >
-                  {formData.customerId
-                    ? customers.find((c) => c.id === formData.customerId)?.name
-                    : "Select Customer"}
-                </button>
-                {showCustomerDropdown && (
-                  <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg">
-                    <input
-                      type="text"
-                      placeholder="Search customer..."
-                      value={customerSearch}
-                      onChange={(e) => setCustomerSearch(e.target.value)}
-                      className="w-full p-2 border-b border-gray-300"
-                      autoFocus
-                    />
-                    <ul className="max-h-60 overflow-auto">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Customer *
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={customerSearchTerm}
+                  onChange={(e) => {
+                    setCustomerSearchTerm(e.target.value);
+                    setShowCustomerDropdown(true);
+                  }}
+                  onFocus={() => setShowCustomerDropdown(true)}
+                  placeholder="Search for customer..."
+                  className={inputClassName}
+                />
+                {showCustomerDropdown && customerSearchTerm && (
+                  <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
+                    <ul className="max-h-60 overflow-auto py-1">
                       {filteredCustomers.length > 0 ? (
                         filteredCustomers.map((customer) => (
                           <li
                             key={customer.id}
                             onClick={() => handleCustomerSelect(customer)}
-                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                            className="px-4 py-2 hover:bg-gray-50 cursor-pointer"
                           >
-                            {customer.name}
+                            <div className="font-medium">{customer.name}</div>
+                            <div className="text-sm text-gray-500">
+                              {customer.email}
+                            </div>
                           </li>
                         ))
                       ) : (
-                        <li className="px-4 py-2 text-sm text-gray-500">
+                        <li className="px-4 py-2 text-gray-500">
                           No customers found
                         </li>
                       )}
@@ -199,36 +205,45 @@ function GuestForm() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 name="email"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                className={inputClassName}
                 value={formData.email}
                 onChange={handleChange}
+                placeholder="guest@example.com"
               />
             </div>
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Phone</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone
+              </label>
               <input
                 type="tel"
                 name="phone"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                className={inputClassName}
                 value={formData.phone}
                 onChange={handleChange}
+                placeholder="+1 (555) 000-0000"
               />
             </div>
 
             {/* Check-in Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Check-in Date</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Check-in Date
+              </label>
               <input
                 type="date"
                 name="checkIn"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                min={new Date().toISOString().split("T")[0]}
+                className={inputClassName}
                 value={formData.checkIn}
                 onChange={handleChange}
               />
@@ -236,12 +251,15 @@ function GuestForm() {
 
             {/* Check-out Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Check-out Date</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Check-out Date
+              </label>
               <input
                 type="date"
                 name="checkOut"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                min={formData.checkIn}
+                className={inputClassName}
                 value={formData.checkOut}
                 onChange={handleChange}
               />
@@ -249,40 +267,33 @@ function GuestForm() {
 
             {/* Relationship */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Relationship</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Relationship
+              </label>
               <input
                 type="text"
                 name="relationship"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                className={inputClassName}
                 value={formData.relationship}
                 onChange={handleChange}
-              />
-            </div>
-
-            {/* Notes */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Notes</label>
-              <textarea
-                name="notes"
-                rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                value={formData.notes}
-                onChange={handleChange}
+                placeholder="e.g. Family, Friend"
               />
             </div>
           </div>
 
           {/* Form Actions */}
-          <div className="flex justify-end gap-4 mt-6">
+          <div className="flex justify-end gap-4 mt-8 pt-4 border-t">
             <Link
               to={id ? `/guests/${id}` : "/guests"}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+              className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 
+                       rounded-lg hover:bg-gray-50 transition-colors duration-200"
             >
               Cancel
             </Link>
             <button
               type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700"
+              className="px-6 py-2.5 text-sm font-medium text-white bg-primary-600 
+                       rounded-lg hover:bg-primary-700 transition-colors duration-200"
             >
               {id ? "Save Changes" : "Add Guest"}
             </button>

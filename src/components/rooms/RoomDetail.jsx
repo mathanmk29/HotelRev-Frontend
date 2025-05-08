@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { rooms, getStatusByValue } from "../../data/rooms";
-import { CalendarDaysIcon } from "@heroicons/react/24/outline"; // Add this import
 
 const RoomDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
@@ -43,11 +41,6 @@ const RoomDetail = () => {
       pricePerNight: formData.pricePerNight,
     }));
     setEditMode(false);
-  };
-
-  const handleBookRoom = () => {
-    // Navigate to booking confirmation instead of the book form
-    navigate(`/bookings/new/${room.id}/confirmation`);
   };
 
   if (loading) {
@@ -298,18 +291,6 @@ const RoomDetail = () => {
             </div>
           </div>
         )}
-      </div>
-
-      {/* Update the Book Room button */}
-      <div className="mt-6 flex justify-end">
-        <button
-          onClick={handleBookRoom}
-          className="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 
-                   transition-colors duration-200 flex items-center space-x-2"
-        >
-          <span>Create Booking</span>
-          <CalendarDaysIcon className="w-5 h-5" />
-        </button>
       </div>
     </div>
   );

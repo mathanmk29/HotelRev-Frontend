@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { customerBooking, customers } from "../../data/customers";
 import { rooms } from "../../data/rooms";
@@ -6,6 +6,21 @@ import { rooms } from "../../data/rooms";
 function BookingList() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [selectedCustomerName, setSelectedCustomerName] = useState("");
+
+  useEffect(() => {
+    // Check for stored customer filter
+    const customerId = sessionStorage.getItem("selectedCustomerId");
+    const customerName = sessionStorage.getItem("selectedCustomerName");
+    if (customerId) {
+      setSelectedCustomerId(customerId);
+      setSearchTerm(customerName || "");
+      // Clear the stored filter
+      sessionStorage.removeItem("selectedCustomerId");
+      sessionStorage.removeItem("selectedCustomerName");
+    }
+  }, []);
 
   // Get all bookings by combining customer bookings
   const allBookings = customerBooking.flatMap((cb) => {
@@ -22,21 +37,29 @@ function BookingList() {
     });
   });
 
-  // Filter bookings based on status and search term
+  // Update filter logic to include customer filter
   const filteredBookings = allBookings.filter((booking) => {
     const matchesStatus =
       filterStatus === "all" || booking.status === filterStatus;
+    const matchesCustomer = selectedCustomerId
+      ? booking.customer?.id === selectedCustomerId
+      : true;
     const matchesSearch =
-      booking.customer?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      booking.bookingId.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesStatus && matchesSearch;
+      !selectedCustomerId &&
+      (booking.customer?.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+        booking.bookingId.toLowerCase().includes(searchTerm.toLowerCase()));
+    return matchesStatus && (matchesCustomer || matchesSearch);
   });
 
   return (
     <div className="p-6">
       <div className="mb-6 flex flex-col sm:flex-row justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-4 sm:mb-0">
-          Booking Transactions
+          {selectedCustomerId
+            ? `Bookings for ${selectedCustomerName}`
+            : "Booking Transactions"}
         </h1>
         <div className="flex space-x-4">
           <div className="relative">
@@ -71,6 +94,18 @@ function BookingList() {
             <option value="cancelled">Cancelled</option>
           </select>
         </div>
+        {selectedCustomerId && (
+          <button
+            onClick={() => {
+              setSelectedCustomerId(null);
+              setSelectedCustomerName("");
+              setSearchTerm("");
+            }}
+            className="ml-2 text-sm text-primary-600 hover:text-primary-700"
+          >
+            Clear Filter
+          </button>
+        )}
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
