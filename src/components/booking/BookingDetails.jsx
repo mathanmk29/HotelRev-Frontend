@@ -157,6 +157,48 @@ const BookingDetails = () => {
           </div>
         </div>
 
+        {/* Add Room Details Section */}
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-lg font-medium text-gray-900 mb-4">
+            Room Details
+          </h2>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-500">Room Number</p>
+                <p className="font-medium">{booking.room?.number || "N/A"}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Room Type</p>
+                <p className="font-medium">{booking.room?.type || "N/A"}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Floor</p>
+                <p className="font-medium">{booking.room?.floor || "N/A"}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Capacity</p>
+                <p className="font-medium">
+                  {booking.room?.capacity || "N/A"} persons
+                </p>
+              </div>
+              <div className="md:col-span-2">
+                <p className="text-sm text-gray-500">Features</p>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  {booking.room?.features?.map((feature, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800"
+                    >
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Customer Booking History */}
         <div className="p-6">
           <h2 className="text-lg font-medium text-gray-900 mb-4">
