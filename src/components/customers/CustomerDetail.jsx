@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { customers } from '../../data/customers'
-import { getCustomerHistoryById } from '../../data/customers'
+import { customers, getCustomerBookingById } from '../../data/customers'
 import { rooms } from '../../data/rooms'
 
 const CustomerDetail = () => {
@@ -31,9 +30,9 @@ const CustomerDetail = () => {
         address: foundCustomer.address,
       })
       
-      // Get customer history
-      const customerHistory = getCustomerHistoryById(id)
-      setHistory(customerHistory)
+      // Get customer booking
+      const customerBooking = getCustomerBookingById(id)
+      setHistory(customerBooking)
     }
     
     setLoading(false)
@@ -115,7 +114,7 @@ const CustomerDetail = () => {
             to={`/customers/${id}/history`}
             className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           >
-            View Full History
+            Bookings
           </Link>
         </div>
       </div>
@@ -292,7 +291,7 @@ const CustomerDetail = () => {
               to={`/customers/${id}/history`}
               className="text-sm font-medium text-primary-600 hover:text-primary-700"
             >
-              View all booking history →
+              View all bookings →
             </Link>
           </div>
         )}

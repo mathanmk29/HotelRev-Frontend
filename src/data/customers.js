@@ -47,7 +47,7 @@ export const customers = [
   },
 ];
 
-export const customerHistory = [
+export const customerBooking = [
   {
     customerId: "customer-1",
     bookings: [
@@ -152,9 +152,9 @@ export const getCustomerById = (id) => {
   return customers.find((customer) => customer.id === id);
 };
 
-export const getCustomerHistoryById = (customerId) => {
+export const getCustomerBookingById = (customerId) => {
   return (
-    customerHistory.find((history) => history.customerId === customerId) || {
+    customerBooking.find((booking) => booking.customerId === customerId) || {
       customerId,
       bookings: [],
     }
