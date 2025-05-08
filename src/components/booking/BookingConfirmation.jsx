@@ -75,32 +75,32 @@ function BookingConfirmation() {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-gray-800 rounded-lg shadow-lg p-6">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-2xl font-bold">Booking Confirmation #{id}</h1>
-            <p className="text-gray-500">
+            <h1 className="text-2xl font-bold text-white">Booking Confirmation #{id}</h1>
+            <p className="text-gray-400">
               Created: {new Date(bookingDetails.createdAt).toLocaleDateString()}
             </p>
           </div>
           <div className="text-right">
-            <p className="font-semibold">{bookingDetails.customer.name}</p>
-            <p className="text-sm text-gray-600">
+            <p className="font-semibold text-white">{bookingDetails.customer.name}</p>
+            <p className="text-sm text-gray-400">
               {bookingDetails.customer.email}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-400">
               {bookingDetails.customer.phone}
             </p>
           </div>
         </div>
 
         <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">Booking Details</h2>
-          <div className="border rounded-lg p-6 space-y-4 bg-gray-50">
+          <h2 className="text-lg font-semibold mb-4 text-white">Booking Details</h2>
+          <div className="border border-gray-600 rounded-lg p-6 space-y-4 bg-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Room Details */}
-              <div className="bg-white p-4 rounded-lg shadow-sm">
-                <h3 className="text-sm font-medium text-gray-500 mb-2">
+              <div className="bg-gray-800 p-4 rounded-lg shadow-sm">
+                <h3 className="text-sm font-medium text-gray-400 mb-2">
                   Room Information
                 </h3>
                 <div className="flex items-center space-x-2">
@@ -115,10 +115,10 @@ function BookingConfirmation() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-lg font-medium text-gray-900">
+                    <p className="text-lg font-medium text-white">
                       Room {bookingDetails.room.number}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       {bookingDetails.room.type}
                     </p>
                   </div>
@@ -126,8 +126,8 @@ function BookingConfirmation() {
               </div>
 
               {/* Guest Details */}
-              <div className="bg-white p-4 rounded-lg shadow-sm">
-                <h3 className="text-sm font-medium text-gray-500 mb-2">
+              <div className="bg-gray-800 p-4 rounded-lg shadow-sm">
+                <h3 className="text-sm font-medium text-gray-400 mb-2">
                   Guest Count
                 </h3>
                 <div className="flex items-center space-x-2">
@@ -142,13 +142,13 @@ function BookingConfirmation() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-lg font-medium text-gray-900">
+                    <p className="text-lg font-medium text-white">
                       {bookingDetails.adults + bookingDetails.children} Guest
                       {bookingDetails.adults + bookingDetails.children !== 1
                         ? "s"
                         : ""}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       {bookingDetails.adults} Adult
                       {bookingDetails.adults !== 1 ? "s" : ""}
                       {bookingDetails.children > 0
@@ -160,8 +160,8 @@ function BookingConfirmation() {
               </div>
 
               {/* Check-in Details */}
-              <div className="bg-white p-4 rounded-lg shadow-sm">
-                <h3 className="text-sm font-medium text-gray-500 mb-2">
+              <div className="bg-gray-800 p-4 rounded-lg shadow-sm">
+                <h3 className="text-sm font-medium text-gray-400 mb-2">
                   Check-in
                 </h3>
                 <div className="flex items-center space-x-2">
@@ -180,7 +180,7 @@ function BookingConfirmation() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-lg font-medium text-gray-900">
+                    <p className="text-lg font-medium text-white">
                       {new Date(bookingDetails.checkIn).toLocaleDateString(
                         "en-US",
                         {
@@ -191,14 +191,14 @@ function BookingConfirmation() {
                         }
                       )}
                     </p>
-                    <p className="text-sm text-gray-600">3:00 PM</p>
+                    <p className="text-sm text-gray-400">3:00 PM</p>
                   </div>
                 </div>
               </div>
 
               {/* Check-out Details */}
-              <div className="bg-white p-4 rounded-lg shadow-sm">
-                <h3 className="text-sm font-medium text-gray-500 mb-2">
+              <div className="bg-gray-800 p-4 rounded-lg shadow-sm">
+                <h3 className="text-sm font-medium text-gray-400 mb-2">
                   Check-out
                 </h3>
                 <div className="flex items-center space-x-2">
@@ -217,7 +217,7 @@ function BookingConfirmation() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-lg font-medium text-gray-900">
+                    <p className="text-lg font-medium text-white">
                       {new Date(bookingDetails.checkOut).toLocaleDateString(
                         "en-US",
                         {
@@ -228,7 +228,7 @@ function BookingConfirmation() {
                         }
                       )}
                     </p>
-                    <p className="text-sm text-gray-600">11:00 AM</p>
+                    <p className="text-sm text-gray-400">11:00 AM</p>
                   </div>
                 </div>
               </div>
@@ -237,8 +237,8 @@ function BookingConfirmation() {
         </div>
 
         <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">Booking Summary</h2>
-          <div className="border-t pt-4 space-y-2">
+          <h2 className="text-lg font-semibold mb-4 text-white">Booking Summary</h2>
+          <div className="border-t border-gray-600 pt-4 space-y-2 text-white">
             <div className="flex justify-between">
               <span>Room Rate (per night):</span>
               <span>${(bookingDetails.room.price || 0).toFixed(2)}</span>

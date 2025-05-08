@@ -165,7 +165,7 @@ const CustomerList = () => {
                           </div>
                         </div>
                         <div className="ml-4">
-                          <p className="text-sm font-medium text-primary-600">
+                          <p className="text-base font-medium text-primary-500">
                             {customer.name}
                           </p>
                           <div className="flex mt-1">

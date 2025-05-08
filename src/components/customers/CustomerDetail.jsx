@@ -84,9 +84,9 @@ const CustomerDetail = () => {
 
   if (!customer) {
     return (
-      <div className="text-center p-12 bg-white rounded-lg shadow">
-        <h2 className="text-2xl font-bold text-gray-900">Customer Not Found</h2>
-        <p className="mt-2 text-gray-500">
+      <div className="text-center p-12 bg-gray-800 rounded-lg shadow">
+        <h2 className="text-2xl font-bold text-white">Customer Not Found</h2>
+        <p className="mt-2 text-gray-400">
           The customer you're looking for doesn't exist.
         </p>
         <div className="mt-6">
@@ -133,7 +133,7 @@ const CustomerDetail = () => {
         <div className="flex space-x-3">
           <button
             onClick={() => setEditMode(!editMode)}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+            className="inline-flex items-center px-4 py-2 border border-gray-600 shadow-sm text-sm font-medium rounded-md text-white bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           >
             {editMode ? "Cancel" : "Edit Profile"}
           </button>
@@ -147,11 +147,11 @@ const CustomerDetail = () => {
       </div>
 
       {/* Customer Profile Card */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+      <div className="bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8">
         <div className="p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center">
-            <div className="flex-shrink-0 h-20 w-20 bg-primary-100 rounded-full flex items-center justify-center mb-4 sm:mb-0">
-              <span className="text-primary-800 font-medium text-2xl">
+            <div className="flex-shrink-0 h-20 w-20 bg-primary-900 rounded-full flex items-center justify-center mb-4 sm:mb-0">
+              <span className="text-primary-200 font-medium text-2xl">
                 {customer.name
                   .split(" ")
                   .map((name) => name[0])
@@ -159,10 +159,10 @@ const CustomerDetail = () => {
               </span>
             </div>
             <div className="sm:ml-6">
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-white">
                 {customer.name}
               </h1>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 Joined on {new Date(customer.createdAt).toLocaleDateString()}
               </p>
             </div>
@@ -174,7 +174,7 @@ const CustomerDetail = () => {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-300"
                   >
                     Full Name
                   </label>
@@ -184,14 +184,14 @@ const CustomerDetail = () => {
                     id="name"
                     value={formData.name}
                     onChange={handleFormChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 hover:border-gray-500 transition-all duration-200 sm:text-sm"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-300"
                   >
                     Email
                   </label>
@@ -201,14 +201,14 @@ const CustomerDetail = () => {
                     id="email"
                     value={formData.email}
                     onChange={handleFormChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 hover:border-gray-500 transition-all duration-200 sm:text-sm"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-300"
                   >
                     Phone Number
                   </label>
@@ -218,7 +218,7 @@ const CustomerDetail = () => {
                     id="phone"
                     value={formData.phone}
                     onChange={handleFormChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 hover:border-gray-500 transition-all duration-200 sm:text-sm"
                   />
                 </div>
               </div>
@@ -226,7 +226,7 @@ const CustomerDetail = () => {
               <div>
                 <label
                   htmlFor="address"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-300"
                 >
                   Address
                 </label>
@@ -236,7 +236,7 @@ const CustomerDetail = () => {
                   rows={3}
                   value={formData.address}
                   onChange={handleFormChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                  className="mt-1 block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 hover:border-gray-500 transition-all duration-200 sm:text-sm"
                 />
               </div>
 
@@ -244,7 +244,7 @@ const CustomerDetail = () => {
                 <button
                   type="button"
                   onClick={() => setEditMode(false)}
-                  className="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                  className="inline-flex justify-center rounded-md border border-gray-600 bg-gray-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
@@ -260,16 +260,16 @@ const CustomerDetail = () => {
           ) : (
             <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
               <div>
-                <dt className="text-sm font-medium text-gray-500">Email</dt>
-                <dd className="mt-1 text-sm text-gray-900">{customer.email}</dd>
+                <dt className="text-sm font-medium text-gray-400">Email</dt>
+                <dd className="mt-1 text-sm text-white">{customer.email}</dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                <dd className="mt-1 text-sm text-gray-900">{customer.phone}</dd>
+                <dt className="text-sm font-medium text-gray-400">Phone</dt>
+                <dd className="mt-1 text-sm text-white">{customer.phone}</dd>
               </div>
               <div className="sm:col-span-2">
-                <dt className="text-sm font-medium text-gray-500">Address</dt>
-                <dd className="mt-1 text-sm text-gray-900">
+                <dt className="text-sm font-medium text-gray-400">Address</dt>
+                <dd className="mt-1 text-sm text-white">
                   {customer.address}
                 </dd>
               </div>
@@ -279,31 +279,31 @@ const CustomerDetail = () => {
       </div>
 
       {/* Booking History */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-200">
+      <div className="bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div className="px-6 py-5 border-b border-gray-700">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
+            <h3 className="text-lg font-medium leading-6 text-primary-400">
               Recent Bookings
             </h3>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-400">
               {history.bookings.length}{" "}
               {history.bookings.length === 1 ? "booking" : "bookings"}
             </span>
           </div>
         </div>
 
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-gray-700">
           {history.bookings.length > 0 ? (
             history.bookings.map((booking) => (
               <div
                 key={booking.id}
-                className="px-6 py-4 hover:bg-gray-50 transition-colors duration-150"
+                className="px-6 py-4 hover:bg-gray-700 transition-colors duration-150"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
+                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-700 flex items-center justify-center">
                       <svg
-                        className="h-6 w-6 text-gray-500"
+                        className="h-6 w-6 text-gray-300"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -318,17 +318,17 @@ const CustomerDetail = () => {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900">
+                      <h4 className="text-sm font-medium text-white">
                         Room {getRoomNumber(booking.roomId)}
                       </h4>
-                      <div className="mt-1 text-sm text-gray-500">
+                      <div className="mt-1 text-sm text-gray-400">
                         {new Date(booking.checkIn).toLocaleDateString()} -{" "}
                         {new Date(booking.checkOut).toLocaleDateString()}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col items-end">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-white">
                       ${booking.totalAmount}
                     </p>
                   </div>
@@ -336,7 +336,7 @@ const CustomerDetail = () => {
               </div>
             ))
           ) : (
-            <div className="px-6 py-12 text-center">
+            <div className="px-6 py-12 text-center bg-gray-800">
               <svg
                 className="mx-auto h-12 w-12 text-gray-400"
                 fill="none"
@@ -351,10 +351,10 @@ const CustomerDetail = () => {
                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                 />
               </svg>
-              <h3 className="mt-2 text-sm font-medium text-gray-900">
+              <h3 className="mt-2 text-sm font-medium text-white">
                 No bookings found
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-gray-400">
                 This customer has no booking history yet.
               </p>
             </div>
@@ -362,7 +362,7 @@ const CustomerDetail = () => {
         </div>
 
         {history.bookings.length > 0 && (
-          <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 text-right">
+          <div className="px-6 py-4 border-t border-gray-700 bg-gray-900 text-right">
             <button
               onClick={handleViewBookings}
               className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700"

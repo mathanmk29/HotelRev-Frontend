@@ -29,20 +29,20 @@ const ConfirmationModal = ({ bookingDetails }) => {
       <div className="flex items-center justify-center min-h-screen p-4">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm"></div>
 
-        <div className="relative transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all sm:w-full sm:max-w-lg">
+        <div className="relative transform overflow-hidden rounded-2xl bg-gray-800 shadow-2xl transition-all sm:w-full sm:max-w-lg">
           {/* Close Button */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-500"
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-300"
           >
             <XMarkIcon className="h-6 w-6" />
           </button>
 
           <div className="p-12">
             {/* Success Icon */}
-            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-green-100">
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-green-900">
               <svg
-                className="h-12 w-12 text-green-600"
+                className="h-12 w-12 text-green-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -57,13 +57,13 @@ const ConfirmationModal = ({ bookingDetails }) => {
             </div>
 
             <div className="mt-8 text-center">
-              <h3 className="text-3xl font-semibold text-gray-900">
+              <h3 className="text-3xl font-semibold text-white">
                 Booking Created!
               </h3>
-              <p className="mt-4 text-lg text-gray-600">
+              <p className="mt-4 text-lg text-gray-300">
                 Your booking has been successfully created
               </p>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-gray-400">
                 Redirecting to bookings list...
               </p>
             </div>

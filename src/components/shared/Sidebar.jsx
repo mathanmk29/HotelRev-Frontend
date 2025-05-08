@@ -9,7 +9,7 @@ import {
   CalendarDaysIcon,
 } from "@heroicons/react/24/outline";
 import { Menu, Transition as HeadlessTransition } from "@headlessui/react";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth.jsx";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const { user, logout } = useAuth();

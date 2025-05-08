@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { rooms, getStatusByValue } from "../../data/rooms";
+import { rooms, getStatusByValue, roomStatuses } from "../../data/rooms";
 
 const RoomDetail = () => {
   const { id } = useParams();
@@ -10,6 +10,12 @@ const RoomDetail = () => {
   const [formData, setFormData] = useState({
     status: "",
     pricePerNight: 0,
+    type: "",
+    capacity: 0,
+    floor: 1,
+    features: [],
+    beds: {},
+    description: "", // Add description field
   });
 
   useEffect(() => {
@@ -20,6 +26,12 @@ const RoomDetail = () => {
       setFormData({
         status: foundRoom.status,
         pricePerNight: foundRoom.pricePerNight,
+        type: foundRoom.type,
+        capacity: foundRoom.capacity,
+        floor: foundRoom.floor,
+        features: [...foundRoom.features],
+        beds: { ...foundRoom.beds },
+        description: foundRoom.description || "", // Initialize description
       });
     }
 
@@ -30,16 +42,39 @@ const RoomDetail = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "pricePerNight" ? parseFloat(value) : value,
+      [name]:
+        name === "pricePerNight" || name === "capacity" || name === "floor"
+          ? parseInt(value, 10)
+          : name === "features"
+          ? value
+              .split(",")
+              .map((f) => f.trim())
+              .filter(Boolean)
+          : value,
+    }));
+  };
+
+  const handleBedChange = (type, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      beds: {
+        ...prev.beds,
+        [type]: parseInt(value) || 0,
+      },
     }));
   };
 
   const handleSave = () => {
-    setRoom((prev) => ({
-      ...prev,
-      status: formData.status,
-      pricePerNight: formData.pricePerNight,
-    }));
+    // Find and update the room in the rooms array
+    const roomIndex = rooms.findIndex((r) => r.id === id);
+    if (roomIndex !== -1) {
+      rooms[roomIndex] = {
+        ...rooms[roomIndex],
+        ...formData,
+      };
+      // Update local state
+      setRoom(rooms[roomIndex]);
+    }
     setEditMode(false);
   };
 
@@ -119,44 +154,150 @@ const RoomDetail = () => {
 
       {/* Main Content */}
       <div className="mt-6 bg-gray-800 rounded-lg shadow p-6">
+        {/* Edit Form */}
         {editMode ? (
           <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Status
-              </label>
-              <select
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleFormChange}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
-              >
-                {roomStatuses.map((status) => (
-                  <option key={status.value} value={status.value}>
-                    {status.label}
-                  </option>
-                ))}
-              </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="status"
+                  className="block text-sm font-medium text-gray-400"
+                >
+                  Status
+                </label>
+                <select
+                  id="status"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleFormChange}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+                >
+                  {roomStatuses.map((status) => (
+                    <option key={status.value} value={status.value}>
+                      {status.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="type"
+                  className="block text-sm font-medium text-gray-400"
+                >
+                  Room Type
+                </label>
+                <input
+                  type="text"
+                  name="type"
+                  id="type"
+                  value={formData.type}
+                  onChange={handleFormChange}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="pricePerNight"
+                  className="block text-sm font-medium text-gray-400"
+                >
+                  Price per Night ($)
+                </label>
+                <input
+                  type="number"
+                  name="pricePerNight"
+                  id="pricePerNight"
+                  value={formData.pricePerNight}
+                  onChange={handleFormChange}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="capacity"
+                  className="block text-sm font-medium text-gray-400"
+                >
+                  Capacity
+                </label>
+                <input
+                  type="number"
+                  name="capacity"
+                  id="capacity"
+                  value={formData.capacity}
+                  onChange={handleFormChange}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="floor"
+                  className="block text-sm font-medium text-gray-400"
+                >
+                  Floor
+                </label>
+                <input
+                  type="number"
+                  name="floor"
+                  id="floor"
+                  value={formData.floor}
+                  onChange={handleFormChange}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+                />
+              </div>
             </div>
 
-            <div>
-              <label
-                htmlFor="pricePerNight"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Price per Night ($)
+            {/* Add Bed Configuration */}
+            <div className="mt-6">
+              <h4 className="text-lg font-medium text-primary-400 mb-4">
+                Bed Configuration
+              </h4>
+              <div className="grid grid-cols-2 gap-4">
+                {["single", "double", "queen", "king"].map((bedType) => (
+                  <div key={bedType}>
+                    <label className="block text-sm font-medium text-gray-400 capitalize">
+                      {bedType} Beds
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={formData.beds[bedType] || 0}
+                      onChange={(e) => handleBedChange(bedType, e.target.value)}
+                      className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Add Features */}
+            <div className="mt-6">
+              <label className="block text-sm font-medium text-gray-400">
+                Features & Amenities (comma-separated)
               </label>
               <input
-                type="number"
-                name="pricePerNight"
-                id="pricePerNight"
-                value={formData.pricePerNight}
+                type="text"
+                name="features"
+                value={formData.features.join(", ")}
                 onChange={handleFormChange}
-                className="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-600 bg-gray-700 text-white rounded-md"
+                placeholder="TV, WiFi, Air Conditioning, etc."
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
+              />
+            </div>
+
+            {/* Add Description */}
+            <div className="mt-6">
+              <label className="block text-sm font-medium text-gray-400">
+                Description
+              </label>
+              <textarea
+                name="description"
+                rows="4"
+                value={formData.description}
+                onChange={handleFormChange}
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
               />
             </div>
 
@@ -198,7 +339,7 @@ const RoomDetail = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-lg font-medium text-primary-400">
                   Room Information
                 </h3>
                 <div className="mt-4 space-y-3">
@@ -246,7 +387,7 @@ const RoomDetail = () => {
                 </div>
 
                 <div className="mt-6">
-                  <h4 className="text-sm font-medium text-white">
+                  <h4 className="text-lg font-medium text-primary-400">
                     Bed Configuration
                   </h4>
                   <div className="mt-2 space-y-1">
@@ -260,7 +401,7 @@ const RoomDetail = () => {
               </div>
 
               <div>
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-lg font-medium text-primary-400">
                   Features & Amenities
                 </h3>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -275,7 +416,7 @@ const RoomDetail = () => {
                 </div>
 
                 <div className="mt-6">
-                  <h3 className="text-lg font-medium text-white">
+                  <h3 className="text-lg font-medium text-primary-400">
                     Description
                   </h3>
                   <p className="mt-2 text-gray-300">

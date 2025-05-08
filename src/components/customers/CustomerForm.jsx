@@ -100,23 +100,23 @@ const CustomerForm = () => {
           </svg>
           Back to Customers
         </Link>
-        <h1 className="mt-4 text-2xl font-bold text-gray-900">
+        <h1 className="mt-4 text-2xl font-bold text-white">
           {id ? "Edit Customer" : "Add New Customer"}
         </h1>
       </div>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-sm text-red-600">{error}</p>
+        <div className="mb-4 p-4 bg-red-900 border border-red-800 rounded-md">
+          <p className="text-sm text-red-300">{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl">
+      <form onSubmit={handleSubmit} className="bg-gray-800 shadow-lg rounded-xl">
         <div className="p-6 space-y-6">
           <div className="grid grid-cols-1 gap-6">
             {/* Name Field */}
             <div className="space-y-2">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300">
                 Full Name *
               </label>
               <input
@@ -125,14 +125,14 @@ const CustomerForm = () => {
                 id="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="block w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
+                className="block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
                 placeholder="John Doe"
               />
             </div>
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
                 Email *
               </label>
               <input
@@ -141,14 +141,14 @@ const CustomerForm = () => {
                 id="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
+                className="block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
                 placeholder="john@example.com"
               />
             </div>
 
             {/* Phone Field */}
             <div className="space-y-2">
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-300">
                 Phone *
               </label>
               <input
@@ -157,14 +157,14 @@ const CustomerForm = () => {
                 id="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="block w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
+                className="block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
                 placeholder="+1 (555) 123-4567"
               />
             </div>
 
             {/* Address Field */}
             <div className="space-y-2">
-              <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="address" className="block text-sm font-medium text-gray-300">
                 Address *
               </label>
               <textarea
@@ -173,7 +173,7 @@ const CustomerForm = () => {
                 rows={3}
                 value={formData.address}
                 onChange={handleChange}
-                className="block w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
+                className="block w-full px-4 py-2.5 rounded-lg border border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-400 transition-all"
                 placeholder="123 Main St, Anytown, CA 12345"
               />
             </div>
@@ -181,10 +181,10 @@ const CustomerForm = () => {
         </div>
 
         {/* Form Footer */}
-        <div className="px-6 py-4 bg-gray-50 flex items-center justify-end rounded-b-xl border-t border-gray-100">
+        <div className="px-6 py-4 bg-gray-900 flex items-center justify-end rounded-b-xl border-t border-gray-700">
           <Link
             to="/customers"
-            className="mr-3 px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all"
+            className="mr-3 px-5 py-2.5 text-sm font-medium text-white bg-gray-700 border border-gray-600 rounded-lg shadow-sm hover:bg-gray-600 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all"
           >
             Cancel
           </Link>

@@ -3,11 +3,11 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { addGuest, updateGuest, getGuestById } from "../../data/guests";
 import { customers } from "../../data/customers";
 
-const inputClassName = `mt-1 block w-full px-4 py-2.5 rounded-lg border border-gray-300
+const inputClassName = `mt-1 block w-full px-4 py-2.5 rounded-lg border border-gray-600
   focus:ring-2 focus:ring-primary-500 focus:border-primary-500
-  hover:border-gray-400 transition-colors duration-200
-  placeholder-gray-400 bg-white text-gray-900
-  disabled:bg-gray-50 disabled:text-gray-500`;
+  hover:border-gray-500 transition-colors duration-200
+  placeholder-gray-400 bg-gray-700 text-white
+  disabled:bg-gray-800 disabled:text-gray-400`;
 
 function GuestForm() {
   const { id } = useParams();
@@ -130,14 +130,14 @@ function GuestForm() {
         </Link>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
-        <h1 className="text-2xl font-bold mb-6">
+      <div className="bg-gray-800 rounded-lg shadow p-6">
+        <h1 className="text-2xl font-bold mb-6 text-white">
           {id ? "Edit Guest" : "New Guest"}
         </h1>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
-            <p className="text-sm text-red-600">{error}</p>
+          <div className="mb-4 p-4 bg-red-900 border border-red-800 rounded-md">
+            <p className="text-sm text-red-300">{error}</p>
           </div>
         )}
 
@@ -145,7 +145,7 @@ function GuestForm() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Guest Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Guest Name
               </label>
               <input
@@ -161,7 +161,7 @@ function GuestForm() {
 
             {/* Customer Selection */}
             <div className="relative customer-search">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Customer *
               </label>
               <div className="relative">
@@ -177,23 +177,23 @@ function GuestForm() {
                   className={inputClassName}
                 />
                 {showCustomerDropdown && customerSearchTerm && (
-                  <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
+                  <div className="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg border border-gray-600">
                     <ul className="max-h-60 overflow-auto py-1">
                       {filteredCustomers.length > 0 ? (
                         filteredCustomers.map((customer) => (
                           <li
                             key={customer.id}
                             onClick={() => handleCustomerSelect(customer)}
-                            className="px-4 py-2 hover:bg-gray-50 cursor-pointer"
+                            className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                           >
-                            <div className="font-medium">{customer.name}</div>
-                            <div className="text-sm text-gray-500">
+                            <div className="font-medium text-white">{customer.name}</div>
+                            <div className="text-sm text-gray-400">
                               {customer.email}
                             </div>
                           </li>
                         ))
                       ) : (
-                        <li className="px-4 py-2 text-gray-500">
+                        <li className="px-4 py-2 text-gray-400">
                           No customers found
                         </li>
                       )}
@@ -205,7 +205,7 @@ function GuestForm() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Email
               </label>
               <input
@@ -220,7 +220,7 @@ function GuestForm() {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Phone
               </label>
               <input
@@ -235,7 +235,7 @@ function GuestForm() {
 
             {/* Check-in Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Check-in Date
               </label>
               <input
@@ -251,7 +251,7 @@ function GuestForm() {
 
             {/* Check-out Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Check-out Date
               </label>
               <input
@@ -267,7 +267,7 @@ function GuestForm() {
 
             {/* Relationship */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Relationship
               </label>
               <input
@@ -282,11 +282,11 @@ function GuestForm() {
           </div>
 
           {/* Form Actions */}
-          <div className="flex justify-end gap-4 mt-8 pt-4 border-t">
+          <div className="flex justify-end gap-4 mt-8 pt-4 border-t border-gray-700">
             <Link
               to={id ? `/guests/${id}` : "/guests"}
-              className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 
-                       rounded-lg hover:bg-gray-50 transition-colors duration-200"
+              className="px-6 py-2.5 text-sm font-medium text-white bg-gray-700 border border-gray-600 
+                       rounded-lg hover:bg-gray-600 transition-colors duration-200"
             >
               Cancel
             </Link>

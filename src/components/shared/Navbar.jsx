@@ -1,16 +1,16 @@
-import { Fragment } from 'react'
-import { Link } from 'react-router-dom'
-import { Menu, Transition } from '@headlessui/react'
-import { 
-  Bars3Icon, 
-  BellIcon, 
-  UserCircleIcon 
-} from '@heroicons/react/24/outline'
-import { useAuth } from '../../hooks/useAuth'
+import { Fragment } from "react";
+import { Link } from "react-router-dom";
+import { Menu, Transition } from "@headlessui/react";
+import {
+  Bars3Icon,
+  BellIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
+import { useAuth } from "../../hooks/useAuth.jsx";
 
 const Navbar = ({ onMenuClick }) => {
-  const { user, logout } = useAuth()
-  
+  const { user, logout } = useAuth();
+
   return (
     <nav className="bg-gray-900 border-b border-gray-700">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -26,11 +26,13 @@ const Navbar = ({ onMenuClick }) => {
             </button>
             <div className="flex items-center flex-shrink-0 ml-2 md:ml-0">
               <Link to="/rooms" className="flex items-center">
-                <span className="text-2xl font-bold text-primary-700">Hotel Manager</span>
+                <span className="text-2xl font-bold text-primary-700">
+                  Hotel Manager
+                </span>
               </Link>
             </div>
           </div>
-          
+
           <div className="flex items-center">
             {/* Notifications */}
             <button
@@ -40,12 +42,15 @@ const Navbar = ({ onMenuClick }) => {
               <span className="sr-only">View notifications</span>
               <BellIcon className="w-6 h-6" aria-hidden="true" />
             </button>
-            
+
             {/* Profile dropdown */}
             <Menu as="div" className="relative ml-4">
               <Menu.Button className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                 <span className="sr-only">Open user menu</span>
-                <UserCircleIcon className="w-8 h-8 text-gray-400" aria-hidden="true" />
+                <UserCircleIcon
+                  className="w-8 h-8 text-gray-400"
+                  aria-hidden="true"
+                />
               </Menu.Button>
               <Transition
                 as={Fragment}
@@ -58,42 +63,44 @@ const Navbar = ({ onMenuClick }) => {
               >
                 <Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-4 py-2 border-b border-gray-700">
-                    <p className="text-sm font-medium text-white">{user?.name}</p>
+                    <p className="text-sm font-medium text-white">
+                      {user?.name}
+                    </p>
                     <p className="text-xs text-gray-400">{user?.email}</p>
                   </div>
-                  
+
                   <Menu.Item>
                     {({ active }) => (
                       <Link
                         to="/profile"
                         className={`${
-                          active ? 'bg-gray-100' : ''
+                          active ? "bg-gray-100" : ""
                         } block px-4 py-2 text-sm text-gray-700`}
                       >
                         Your Profile
                       </Link>
                     )}
                   </Menu.Item>
-                  
+
                   <Menu.Item>
                     {({ active }) => (
                       <Link
                         to="/settings"
                         className={`${
-                          active ? 'bg-gray-100' : ''
+                          active ? "bg-gray-100" : ""
                         } block px-4 py-2 text-sm text-gray-700`}
                       >
                         Settings
                       </Link>
                     )}
                   </Menu.Item>
-                  
+
                   <Menu.Item>
                     {({ active }) => (
                       <button
                         onClick={logout}
                         className={`${
-                          active ? 'bg-gray-700' : ''
+                          active ? "bg-gray-700" : ""
                         } block w-full text-left px-4 py-2 text-sm text-gray-200`}
                       >
                         Sign out
@@ -107,7 +114,7 @@ const Navbar = ({ onMenuClick }) => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

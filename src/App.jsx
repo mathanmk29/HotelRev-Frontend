@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
+import { useAuth } from "./hooks/useAuth.jsx";
 
 // Layouts
 import Layout from "./components/shared/Layout";
@@ -29,6 +29,9 @@ import GuestDetail from "./components/guests/GuestDetail";
 import BookingList from "./components/booking/BookingList";
 import BookingDetails from "./components/booking/BookingDetails";
 import BookingConfirmation from "./components/booking/BookingConfirmation";
+
+// Users
+import UserProfile from "./components/users/UserProfile";
 
 // Billing
 // import BillingList from "./components/billing/BillingList";
@@ -99,6 +102,9 @@ function App() {
           path="bookings/new/:roomId/confirmation"
           element={<BookingConfirmation />}
         />
+
+        {/* User Profile */}
+        <Route path="profile" element={<UserProfile />} />
       </Route>
 
       {/* Catch-all route */}

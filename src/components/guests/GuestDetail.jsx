@@ -36,9 +36,9 @@ function GuestDetail() {
         </Link>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">{guest.name}</h1>
+      <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div className="px-6 py-5 border-b border-gray-700 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-white">{guest.name}</h1>
           <div className="flex gap-3">
             <Link
               to={`/guests/edit/${id}`}
@@ -57,23 +57,23 @@ function GuestDetail() {
 
         <div className="px-6 py-6 grid grid-cols-2 gap-6">
           <div>
-            <h2 className="text-lg font-medium text-gray-900 mb-4">
+            <h2 className="text-lg font-medium text-primary-400 mb-4">
               Guest Information
             </h2>
             <dl className="space-y-3">
               <div>
-                <dt className="text-sm font-medium text-gray-500">Email</dt>
-                <dd className="mt-1 text-sm text-gray-900">{guest.email}</dd>
+                <dt className="text-sm font-medium text-gray-400">Email</dt>
+                <dd className="mt-1 text-sm text-white">{guest.email}</dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                <dd className="mt-1 text-sm text-gray-900">{guest.phone}</dd>
+                <dt className="text-sm font-medium text-gray-400">Phone</dt>
+                <dd className="mt-1 text-sm text-white">{guest.phone}</dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-gray-400">
                   Relationship
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900">
+                <dd className="mt-1 text-sm text-white">
                   {guest.relationship}
                 </dd>
               </div>
@@ -81,29 +81,29 @@ function GuestDetail() {
           </div>
 
           <div>
-            <h2 className="text-lg font-medium text-gray-900 mb-4">
+            <h2 className="text-lg font-medium text-primary-400 mb-4">
               Visit Details
             </h2>
             <dl className="space-y-3">
               <div>
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-gray-400">
                   Visiting Customer
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900">{customer?.name}</dd>
+                <dd className="mt-1 text-sm text-white">{customer?.name}</dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-gray-400">
                   Check-in Date
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900">
+                <dd className="mt-1 text-sm text-white">
                   {new Date(guest.checkIn).toLocaleDateString()}
                 </dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-gray-400">
                   Check-out Date
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900">
+                <dd className="mt-1 text-sm text-white">
                   {new Date(guest.checkOut).toLocaleDateString()}
                 </dd>
               </div>
@@ -113,14 +113,14 @@ function GuestDetail() {
       </div>
 
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div className="fixed inset-0 bg-black bg-opacity-70 overflow-y-auto h-full w-full">
+          <div className="relative top-20 mx-auto p-5 border border-gray-700 w-96 shadow-lg rounded-md bg-gray-800">
             <div className="mt-3 text-center">
-              <h3 className="text-lg font-medium text-gray-900">
+              <h3 className="text-lg font-medium text-white">
                 Delete Guest
               </h3>
               <div className="mt-2 px-7 py-3">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-300">
                   Are you sure you want to delete this guest? This action cannot
                   be undone.
                 </p>
@@ -128,7 +128,7 @@ function GuestDetail() {
               <div className="mt-4 flex justify-center gap-4">
                 <button
                   onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
+                  className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600"
                 >
                   Cancel
                 </button>
