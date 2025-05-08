@@ -6,8 +6,6 @@ import {
   UserGroupIcon,
   KeyIcon,
   UserIcon,
-  CreditCardIcon,
-  ChartBarIcon,
   Cog6ToothIcon,
   CalendarDaysIcon,
 } from "@heroicons/react/24/outline";
@@ -28,7 +26,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   ];
 
   const adminNavigation = [
-    { name: "Reports", href: "/reports", icon: ChartBarIcon },
     { name: "Settings", href: "/settings", icon: Cog6ToothIcon },
   ];
 
