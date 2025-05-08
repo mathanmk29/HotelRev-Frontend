@@ -9,13 +9,10 @@ import Layout from "./components/shared/Layout";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 
-// Dashboards
-// import AdminDashboard from "./components/dashboard/AdminDashboard";
-// import StaffDashboard from "./components/dashboard/StaffDashboard";
-
 // Rooms
 import RoomList from "./components/rooms/RoomList";
 import RoomDetail from "./components/rooms/RoomDetail";
+import RoomBookForm from "./components/rooms/RoomBookForm";
 
 // Customers
 import CustomerList from "./components/customers/CustomerList";
@@ -65,6 +62,7 @@ function App() {
         {/* Rooms */}
         <Route path="rooms" element={<RoomList />} />
         <Route path="rooms/:id" element={<RoomDetail />} />
+        <Route path="rooms/:id/book" element={<RoomBookForm />} />
 
         {/* Customers */}
         <Route path="customers" element={<CustomerList />} />
