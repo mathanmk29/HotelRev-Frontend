@@ -99,33 +99,13 @@ const CustomerHistory = () => {
         <div className="ml-4">
           <h2 className="text-lg font-medium text-gray-900">
             {customer.name}
-            {customer.vipStatus && (
-              <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent-100 text-accent-800">
-                VIP
-              </span>
-            )}
           </h2>
           <p className="text-sm text-gray-500">{customer.email} • {customer.phone}</p>
         </div>
         <div className="ml-auto flex items-center">
           <div className="text-right">
-            <p className="text-sm font-medium text-gray-900">Loyalty Points</p>
-            <p className="text-xl font-bold text-primary-600">{customer.loyalty.points}</p>
           </div>
           <div className="ml-4 flex-shrink-0">
-            <div className={`h-9 w-9 rounded-full flex items-center justify-center ${
-              customer.loyalty.tier === 'Platinum' ? 'bg-purple-100' :
-              customer.loyalty.tier === 'Gold' ? 'bg-yellow-100' :
-              customer.loyalty.tier === 'Silver' ? 'bg-gray-100' :
-              'bg-amber-100'
-            } ${
-              customer.loyalty.tier === 'Platinum' ? 'text-purple-800' :
-              customer.loyalty.tier === 'Gold' ? 'text-yellow-800' :
-              customer.loyalty.tier === 'Silver' ? 'text-gray-800' :
-              'text-amber-800'
-            }`}>
-              <span className="text-xs font-medium">{customer.loyalty.tier[0]}</span>
-            </div>
           </div>
         </div>
       </div>

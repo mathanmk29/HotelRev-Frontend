@@ -21,6 +21,7 @@ import RoomDetail from "./components/rooms/RoomDetail";
 import CustomerList from "./components/customers/CustomerList";
 import CustomerDetail from "./components/customers/CustomerDetail";
 import CustomerHistory from "./components/customers/CustomerHistory";
+import CustomerForm from "./components/customers/CustomerForm";
 
 // Guests
 import GuestList from "./components/guests/GuestList";
@@ -59,10 +60,7 @@ function App() {
         <Route index element={<Navigate to="/dashboard" replace />} />
 
         {/* Dashboard */}
-        <Route
-          path="dashboard"
-          element={<Navigate to="/rooms" replace />}
-        />
+        <Route path="dashboard" element={<Navigate to="/rooms" replace />} />
 
         {/* Rooms */}
         <Route path="rooms" element={<RoomList />} />
@@ -70,6 +68,8 @@ function App() {
 
         {/* Customers */}
         <Route path="customers" element={<CustomerList />} />
+        <Route path="customers/new" element={<CustomerForm />} />
+        <Route path="customers/edit/:id" element={<CustomerForm />} />
         <Route path="customers/:id" element={<CustomerDetail />} />
         <Route path="customers/:id/history" element={<CustomerHistory />} />
 
