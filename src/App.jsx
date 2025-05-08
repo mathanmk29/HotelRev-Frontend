@@ -28,6 +28,7 @@ import GuestDetail from "./components/guests/GuestDetail";
 // Billing
 import BillingList from "./components/billing/BillingList";
 import Invoice from "./components/billing/Invoice";
+import BillingDetails from "./components/billing/BillingDetails";
 
 function App() {
   const { user, loading } = useAuth();
@@ -80,6 +81,7 @@ function App() {
         {/* Billing */}
         <Route path="billing" element={<BillingList />} />
         <Route path="billing/:id" element={<Invoice />} />
+        <Route path="billing/:id/details" element={<BillingDetails />} />
       </Route>
 
       {/* Catch-all route */}
