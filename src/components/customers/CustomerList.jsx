@@ -49,7 +49,7 @@ const CustomerList = () => {
   };
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in p-4">
       <div className="flex flex-col space-y-6">
         {/* Header */}
         <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">

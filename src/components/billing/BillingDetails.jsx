@@ -77,7 +77,7 @@ const BillingDetails = () => {
   if (!billing) return <div className="p-6">No billing record found</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-4">
       {/* Header with Back Button */}
       <div className="flex justify-between items-center mb-6">
         <Link
