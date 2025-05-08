@@ -82,9 +82,19 @@ export default function RoomBookForm() {
       const booking = createBooking({
         roomId: room.id,
         ...formData,
+        pricePerNight: room.pricePerNight, // Add room price
+        roomNumber: room.number, // Add room number
+        roomType: room.type, // Add room type
         totalAmount: bill.total,
         checkIn: `${formData.checkIn}T15:00:00.000Z`,
         checkOut: `${formData.checkOut}T11:00:00.000Z`,
+        bill: {
+          // Add detailed bill information
+          roomCharge: bill.roomCharge,
+          tax: bill.tax,
+          total: bill.total,
+          nights: bill.nights,
+        },
       });
 
       navigate(`/billing/${booking.billingId}`);
