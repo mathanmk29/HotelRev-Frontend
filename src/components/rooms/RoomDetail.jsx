@@ -65,14 +65,15 @@ const RoomDetail = () => {
   };
 
   const handleSave = () => {
-    // Find and update the room in the rooms array
     const roomIndex = rooms.findIndex((r) => r.id === id);
     if (roomIndex !== -1) {
       rooms[roomIndex] = {
         ...rooms[roomIndex],
         ...formData,
+        description:
+          formData.description ||
+          `A comfortable ${formData.type.toLowerCase()} room.`,
       };
-      // Update local state
       setRoom(rooms[roomIndex]);
     }
     setEditMode(false);
@@ -420,12 +421,16 @@ const RoomDetail = () => {
                     Description
                   </h3>
                   <p className="mt-2 text-gray-300">
-                    This {room.type.toLowerCase()} room offers comfortable
-                    accommodations for up to {room.capacity} guests. Perfect for{" "}
-                    {room.capacity > 2
-                      ? "families or groups"
-                      : "couples or solo travelers"}
-                    .
+                    {room.description ||
+                      `This ${room.type.toLowerCase()} room offers comfortable
+                    accommodations for up to ${
+                      room.capacity
+                    } guests. Perfect for
+                    ${
+                      room.capacity > 2
+                        ? "families or groups"
+                        : "couples or solo travelers"
+                    }.`}
                   </p>
                 </div>
               </div>

@@ -13,6 +13,7 @@ export const rooms = [
     features: ["TV", "WiFi", "Air Conditioning", "Mini Bar"],
     status: "available",
     floor: 1,
+    description: "A comfortable standard room with modern amenities.",
   },
   {
     id: "room-2",
@@ -33,6 +34,7 @@ export const rooms = [
     ],
     status: "occupied",
     floor: 1,
+    description: "A luxurious deluxe room with sea view.",
   },
   {
     id: "room-3",
@@ -54,6 +56,7 @@ export const rooms = [
     ],
     status: "available",
     floor: 2,
+    description: "An elegant suite with mountain view and private jacuzzi.",
   },
   {
     id: "room-4",
@@ -75,6 +78,7 @@ export const rooms = [
     ],
     status: "maintenance",
     floor: 2,
+    description: "A spacious family suite with connecting rooms.",
   },
   {
     id: "room-5",
@@ -98,6 +102,8 @@ export const rooms = [
     ],
     status: "available",
     floor: 3,
+    description:
+      "The opulent presidential suite with private balcony and jacuzzi.",
   },
   {
     id: "room-6",
@@ -111,6 +117,7 @@ export const rooms = [
     features: ["TV", "WiFi", "Air Conditioning", "Mini Bar"],
     status: "occupied",
     floor: 3,
+    description: "A cozy standard room, perfect for families.",
   },
 ];
 
@@ -153,6 +160,9 @@ export const addRoom = (roomData) => {
   const newRoom = {
     id: `room-${rooms.length + 1}`,
     ...roomData,
+    description:
+      roomData.description ||
+      `A comfortable ${roomData.type.toLowerCase()} room.`,
   };
   rooms.push(newRoom);
   return newRoom;

@@ -12,7 +12,11 @@ const RoomList = () => {
   const { user } = useContext(AuthContext);
   const isAdmin = user?.role === "admin";
 
-  const [filteredRooms, setFilteredRooms] = useState(rooms);
+  const [filteredRooms, setFilteredRooms] = useState(
+    [...rooms].sort((a, b) =>
+      a.number.localeCompare(b.number, undefined, { numeric: true })
+    )
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -41,6 +45,11 @@ const RoomList = () => {
     if (status !== "all") {
       results = results.filter((room) => room.status === status);
     }
+
+    // Sort rooms by number
+    results.sort((a, b) =>
+      a.number.localeCompare(b.number, undefined, { numeric: true })
+    );
 
     setFilteredRooms(results);
   };

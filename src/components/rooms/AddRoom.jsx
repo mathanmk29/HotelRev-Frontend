@@ -47,7 +47,12 @@ export default function AddRoom() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newRoom = addRoom(formData);
+    const newRoom = addRoom({
+      ...formData,
+      description:
+        formData.description ||
+        `A comfortable ${formData.type.toLowerCase()} room.`,
+    });
     navigate(`/rooms/${newRoom.id}`);
   };
 
@@ -233,6 +238,7 @@ export default function AddRoom() {
               rows="4"
               value={formData.description}
               onChange={handleFormChange}
+              placeholder={`A comfortable ${formData.type.toLowerCase()} room.`}
               className="mt-1 block w-full rounded-md border border-gray-600 bg-gray-700 text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
             />
           </div>
