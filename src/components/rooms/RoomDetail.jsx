@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { rooms, getStatusByValue, roomStatuses } from "../../data/rooms";
+import { AuthContext } from "../../context/AuthContext";
 
 const RoomDetail = () => {
+  const { user } = useContext(AuthContext);
+  const isAdmin = user?.role === "admin";
   const { id } = useParams();
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -136,12 +139,14 @@ const RoomDetail = () => {
           </h1>
         </div>
         <div className="flex mt-4 space-x-3 md:mt-0">
-          <button
-            onClick={() => setEditMode(!editMode)}
-            className="inline-flex items-center px-4 py-2 border border-gray-600 shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-          >
-            {editMode ? "Cancel" : "Edit Room"}
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setEditMode(!editMode)}
+              className="inline-flex items-center px-4 py-2 border border-gray-600 shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+            >
+              {editMode ? "Cancel" : "Edit Room"}
+            </button>
+          )}
           {room.status === "available" && (
             <Link
               to={`/rooms/${room.id}/book`}
