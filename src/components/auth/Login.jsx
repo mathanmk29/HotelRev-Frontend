@@ -237,14 +237,14 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-3">
+          {/* <div className="mt-6 grid grid-cols-1 gap-3">
             <div className="text-sm">
               <p className="mb-1 text-gray-400">
                 Admin: admin@hotel.com / admin123
               </p>
               <p className="text-gray-400">Staff: staff@hotel.com / staff123</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
