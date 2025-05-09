@@ -11,13 +11,13 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({
     email: "",
-    password: ""
+    password: "",
   });
-  
+
   // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
-      navigate('/rooms');
+      navigate("/rooms");
     }
   }, [user, navigate]);
 
@@ -39,13 +39,19 @@ const Login = () => {
   // Handle input change and validate on the fly
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "email") {
       setEmail(value);
-      setFormErrors(prev => ({...prev, email: value.trim() ? "" : "Email is required"}));
+      setFormErrors((prev) => ({
+        ...prev,
+        email: value.trim() ? "" : "Email is required",
+      }));
     } else if (name === "password") {
       setPassword(value);
-      setFormErrors(prev => ({...prev, password: value ? "" : "Password is required"}));
+      setFormErrors((prev) => ({
+        ...prev,
+        password: value ? "" : "Password is required",
+      }));
     }
   };
 
@@ -53,23 +59,23 @@ const Login = () => {
   const validateForm = () => {
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
-    
+
     setFormErrors({
       email: emailError,
-      password: passwordError
+      password: passwordError,
     });
-    
+
     return !emailError && !passwordError;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate form before submission
     if (!validateForm()) {
       return;
     }
-    
+
     setIsLoading(true);
 
     const success = login(email, password);
@@ -85,7 +91,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-black">
       <div className="w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white">Hotel Manager</h1>
+          <h1 className="text-3xl font-bold text-white">RoomStack</h1>
           <h2 className="mt-2 text-xl font-semibold text-white">
             Sign in to your account
           </h2>
@@ -114,9 +120,13 @@ const Login = () => {
                 required
                 value={email}
                 onChange={handleInputChange}
-                onBlur={() => setFormErrors({...formErrors, email: validateEmail(email)})}
+                onBlur={() =>
+                  setFormErrors({ ...formErrors, email: validateEmail(email) })
+                }
                 className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
-                  formErrors.email ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                  formErrors.email
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
                 }`}
               />
               {formErrors.email && (
@@ -139,13 +149,22 @@ const Login = () => {
                 required
                 value={password}
                 onChange={handleInputChange}
-                onBlur={() => setFormErrors({...formErrors, password: validatePassword(password)})}
+                onBlur={() =>
+                  setFormErrors({
+                    ...formErrors,
+                    password: validatePassword(password),
+                  })
+                }
                 className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
-                  formErrors.password ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                  formErrors.password
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
                 }`}
               />
               {formErrors.password && (
-                <p className="mt-1 text-sm text-red-400">{formErrors.password}</p>
+                <p className="mt-1 text-sm text-red-400">
+                  {formErrors.password}
+                </p>
               )}
             </div>
           </div>

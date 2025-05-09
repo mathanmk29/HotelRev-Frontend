@@ -27,7 +27,7 @@ const Navbar = ({ onMenuClick }) => {
             <div className="flex items-center flex-shrink-0 ml-2 md:ml-0">
               <Link to="/rooms" className="flex items-center">
                 <span className="text-2xl font-bold text-primary-700">
-                  Hotel Manager
+                  RoomStack
                 </span>
               </Link>
             </div>
