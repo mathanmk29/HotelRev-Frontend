@@ -92,6 +92,7 @@ export default function RoomBookForm() {
         // Bill will be created automatically in the createBooking function
       });
 
+      // Consistent route pattern for booking confirmation
       navigate(`/bookings/${booking.id}/confirmation`);
     } catch (err) {
       setError(err.message || "Failed to create booking");
