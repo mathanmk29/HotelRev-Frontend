@@ -16,14 +16,14 @@ function BookingConfirmation() {
 
   useEffect(() => {
     try {
-      const booking = bookings.find((b) => b.id === id);
+      const booking = bookings.find((booking) => booking.id === id);
       if (!booking) {
         setError("Booking not found");
         return;
       }
 
-      const room = rooms.find((r) => r.id === booking.roomId);
-      const customer = customers.find((c) => c.id === booking.customerId);
+      const room = rooms.find((room) => room.id === booking.roomId);
+      const customer = customers.find((customer) => customer.id === booking.customerId);
 
       if (!room || !customer) {
         setError("Invalid room or customer data");
@@ -243,7 +243,7 @@ function BookingConfirmation() {
           <div className="border-t border-gray-600 pt-4 space-y-2 text-white">
             <div className="flex justify-between">
               <span>Room Rate (per night):</span>
-              <span>${(bookingDetails.room.price || 0).toFixed(2)}</span>
+              <span>${(bookingDetails.room.pricePerNight || 0).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span>Number of Nights:</span>

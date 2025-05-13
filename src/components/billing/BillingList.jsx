@@ -11,8 +11,8 @@ function BillingList() {
 
   // Get all billings by joining bookings and bills data
   const allBillings = bookings.map((booking) => {
-    const customer = customers.find((c) => c.id === booking.customerId);
-    const room = rooms.find((r) => r.id === booking.roomId);
+    const customer = customers.find((customer) => customer.id === booking.customerId);
+    const room = rooms.find((room) => room.id === booking.roomId);
     const bill = getBillByBookingId(booking.id);
     
     return {

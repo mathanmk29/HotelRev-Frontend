@@ -23,14 +23,14 @@ const BillingDetails = () => {
       const bookingId = "booking-" + id.split("-")[1];
 
       // Find booking directly in the bookings array
-      const foundBooking = bookings.find(b => b.id === bookingId);
+      const foundBooking = bookings.find(booking => booking.id === bookingId);
       let foundCustomer = null;
       let foundRoom = null;
       let foundBill = null;
       
       if (foundBooking) {
-        foundCustomer = customers.find(c => c.id === foundBooking.customerId);
-        foundRoom = rooms.find(r => r.id === foundBooking.roomId);
+        foundCustomer = customers.find(customer => customer.id === foundBooking.customerId);
+        foundRoom = rooms.find(room => room.id === foundBooking.roomId);
         foundBill = getBillByBookingId(foundBooking.id);
       }
 

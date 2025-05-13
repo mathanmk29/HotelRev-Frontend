@@ -18,11 +18,11 @@ const BookingDetails = () => {
   useEffect(() => {
     try {
       // Find booking directly in the bookings array
-      const foundBooking = bookings.find(b => b.id === id);
+      const foundBooking = bookings.find(booking => booking.id === id);
       
       if (foundBooking) {
-        const foundCustomer = customers.find(c => c.id === foundBooking.customerId);
-        const foundRoom = rooms.find(r => r.id === foundBooking.roomId);
+        const foundCustomer = customers.find(customer => customer.id === foundBooking.customerId);
+        const foundRoom = rooms.find(room => room.id === foundBooking.roomId);
         
         const foundBill = getBillByBookingId(foundBooking.id);
         
