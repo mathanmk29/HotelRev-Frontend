@@ -244,7 +244,7 @@ const RoomDetail = () => {
                 Bed Configuration
               </h4>
               <div className="grid grid-cols-2 gap-4">
-                {["single", "double", "queen", "king"].map((bedType) => (
+                {["single", "double"].map((bedType) => (
                   <div key={bedType}>
                     <label className="block text-sm font-medium text-gray-400 capitalize">
                       {bedType} Beds

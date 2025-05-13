@@ -18,7 +18,7 @@ export const rooms = [
     id: "room-2",
     number: "102",
     beds: {
-      queen: 1,
+      double: 1,
     },
     capacity: 2,
     pricePerNight: 180,
@@ -38,7 +38,8 @@ export const rooms = [
     id: "room-3",
     number: "201",
     beds: {
-      king: 1,
+      double: 1,
+      single: 1,
     },
     capacity: 2,
     pricePerNight: 250,
@@ -59,7 +60,7 @@ export const rooms = [
     id: "room-4",
     number: "202",
     beds: {
-      queen: 1,
+      double: 1,
       single: 2,
     },
     capacity: 4,
@@ -80,7 +81,7 @@ export const rooms = [
     id: "room-5",
     number: "301",
     beds: {
-      king: 1,
+      double: 2,
     },
     capacity: 2,
     pricePerNight: 500,
