@@ -18,7 +18,13 @@ function Invoice() {
   useEffect(() => {
     try {
       console.log("Searching for booking with ID:", id);
-      const booking = bookings.find((booking) => booking.billingId === id);
+      // First find the bill ID format
+      const billId = id.startsWith('bill-') 
+        ? id 
+        : `bill-${id.replace('booking-', '')}`;
+      
+      // Then find the booking associated with this bill ID
+      const booking = bookings.find((booking) => `bill-${booking.id.replace('booking-', '')}` === billId);
       console.log("Found booking:", booking);
 
       if (!booking) {
@@ -67,7 +73,7 @@ function Invoice() {
 
   const handlePaymentComplete = (updatedBooking) => {
     setShowPaymentModal(false);
-    setPaymentStatus("confirmed"); // Change to 'confirmed' instead of 'paid'
+    setPaymentStatus("paid"); // Set to 'paid' to match the check in the UI
     setInvoice((prev) => ({
       ...prev,
       status: "confirmed", // Change paymentStatus to status
@@ -287,7 +293,7 @@ function Invoice() {
                       : "bg-yellow-100 text-yellow-800"
                   }`}
                 >
-                  {paymentStatus === "paid" ? "Paid" : "Pending Payment"}
+                  {paymentStatus === "paid" ? "Paid" : paymentStatus === "confirmed" ? "Confirmed" : "Pending Payment"}
                 </span>
               </div>
               {paymentStatus !== "paid" && (

@@ -35,7 +35,7 @@ export default function RoomBookForm() {
   const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
-    const foundRoom = rooms.find((r) => r.id === id);
+    const foundRoom = rooms.find((room) => room.id === id);
     if (foundRoom && foundRoom.status === "available") {
       setRoom(foundRoom);
     } else {

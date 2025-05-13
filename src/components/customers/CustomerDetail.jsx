@@ -20,7 +20,7 @@ const CustomerDetail = () => {
 
   useEffect(() => {
     // Find customer by ID
-    const foundCustomer = customers.find((c) => c.id === id);
+    const foundCustomer = customers.find((customer) => customer.id === id);
 
     if (foundCustomer) {
       setCustomer(foundCustomer);
@@ -105,7 +105,7 @@ const CustomerDetail = () => {
 
   // Get room number for bookings
   const getRoomNumber = (roomId) => {
-    const room = rooms.find((r) => r.id === roomId);
+    const room = rooms.find((room) => room.id === roomId);
     return room ? room.number : "Unknown";
   };
 

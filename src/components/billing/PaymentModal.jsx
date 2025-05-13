@@ -99,7 +99,7 @@ const PaymentModal = ({ invoice, onClose, onPaymentComplete }) => {
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="text-sm font-medium text-gray-500">
-                      Invoice #{invoice.billingId}
+                      Invoice #{invoice.id}
                     </p>
                     <p className="text-sm text-gray-500">
                       {invoice.customer.name}
@@ -263,7 +263,7 @@ const PaymentModal = ({ invoice, onClose, onPaymentComplete }) => {
                     <p>Account Number: 1234567890</p>
                     <p>Routing Number: 987654321</p>
                     <p className="mt-2">
-                      Please include invoice #{invoice.billingId} as reference.
+                      Please include invoice #{invoice.id} as reference.
                     </p>
                   </div>
                 )}

@@ -17,7 +17,7 @@ const CustomerForm = () => {
 
   useEffect(() => {
     if (id) {
-      const customer = customers.find((c) => c.id === id);
+      const customer = customers.find((customer) => customer.id === id);
       if (customer) {
         setFormData({
           name: customer.name,
@@ -64,7 +64,7 @@ const CustomerForm = () => {
     };
 
     if (id) {
-      const index = customers.findIndex((c) => c.id === id);
+      const index = customers.findIndex((customer) => customer.id === id);
       if (index !== -1) {
         customers[index] = {
           ...customers[index],

@@ -107,7 +107,7 @@ export const getCustomerBookingById = (customerId) => {
 };
 
 export const updateCustomerStatus = (customerId, isCurrentGuest) => {
-  const customerIndex = customers.findIndex((c) => c.id === customerId);
+  const customerIndex = customers.findIndex((customer) => customer.id === customerId);
   if (customerIndex !== -1) {
     customers[customerIndex].currentGuest = isCurrentGuest;
     return customers[customerIndex];

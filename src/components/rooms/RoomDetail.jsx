@@ -22,7 +22,7 @@ const RoomDetail = () => {
   });
 
   useEffect(() => {
-    const foundRoom = rooms.find((r) => r.id === id);
+    const foundRoom = rooms.find((room) => room.id === id);
 
     if (foundRoom) {
       setRoom(foundRoom);
@@ -68,7 +68,7 @@ const RoomDetail = () => {
   };
 
   const handleSave = () => {
-    const roomIndex = rooms.findIndex((r) => r.id === id);
+    const roomIndex = rooms.findIndex((room) => room.id === id);
     if (roomIndex !== -1) {
       rooms[roomIndex] = {
         ...rooms[roomIndex],

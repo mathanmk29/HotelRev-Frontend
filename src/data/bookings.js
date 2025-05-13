@@ -95,7 +95,7 @@ export const createBooking = (bookingData) => {
   };
 
   // Update room status
-  const room = rooms.find((r) => r.id === bookingData.roomId);
+  const room = rooms.find((room) => room.id === bookingData.roomId);
   if (room) {
     room.status = "occupied";
   }
