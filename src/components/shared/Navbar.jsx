@@ -67,6 +67,9 @@ const Navbar = ({ onMenuClick }) => {
                       {user?.name}
                     </p>
                     <p className="text-xs text-gray-400">{user?.email}</p>
+                    {user?.designation && (
+                      <p className="text-xs text-primary-400 mt-1">{user.designation}</p>
+                    )}
                   </div>
 
                   <Menu.Item>

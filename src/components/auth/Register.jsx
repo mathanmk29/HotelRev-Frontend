@@ -11,6 +11,9 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("staff"); // Add role state
+  const [mobile, setMobile] = useState("");
+  const [address, setAddress] = useState("");
+  const [designation, setDesignation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({
     name: "",
@@ -18,6 +21,9 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     role: "", // Add role error state
+    mobile: "",
+    address: "",
+    designation: "",
   });
 
   // Allow access to sign up page even when logged in
@@ -72,6 +78,27 @@ const Register = () => {
     return "";
   };
 
+  // Validate mobile number
+  const validateMobile = (mobile) => {
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!mobile.trim()) return "Mobile number is required";
+    if (!mobileRegex.test(mobile)) return "Please enter a valid 10-digit mobile number";
+    return "";
+  };
+
+  // Validate address
+  const validateAddress = (address) => {
+    if (!address.trim()) return "Address is required";
+    if (address.trim().length < 5) return "Address must be at least 5 characters";
+    return "";
+  };
+
+  // Validate designation
+  const validateDesignation = (designation) => {
+    if (!designation.trim()) return "Designation is required";
+    return "";
+  };
+
   // Handle input change and validate on the fly
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -121,6 +148,27 @@ const Register = () => {
           role: value ? "" : "Role is required",
         }));
         break;
+      case "mobile":
+        setMobile(value);
+        setFormErrors((prev) => ({
+          ...prev,
+          mobile: value.trim() ? "" : "Mobile number is required",
+        }));
+        break;
+      case "address":
+        setAddress(value);
+        setFormErrors((prev) => ({
+          ...prev,
+          address: value.trim() ? "" : "Address is required",
+        }));
+        break;
+      case "designation":
+        setDesignation(value);
+        setFormErrors((prev) => ({
+          ...prev,
+          designation: value.trim() ? "" : "Designation is required",
+        }));
+        break;
       default:
         break;
     }
@@ -133,6 +181,9 @@ const Register = () => {
     const passwordError = validatePassword(password);
     const confirmError = validateConfirmPassword(password, confirmPassword);
     const roleError = role ? "" : "Role is required";
+    const mobileError = validateMobile(mobile);
+    const addressError = validateAddress(address);
+    const designationError = validateDesignation(designation);
 
     setFormErrors({
       name: nameError,
@@ -140,10 +191,20 @@ const Register = () => {
       password: passwordError,
       confirmPassword: confirmError,
       role: roleError,
+      mobile: mobileError,
+      address: addressError,
+      designation: designationError,
     });
 
     return (
-      !nameError && !emailError && !passwordError && !confirmError && !roleError
+      !nameError && 
+      !emailError && 
+      !passwordError && 
+      !confirmError && 
+      !roleError && 
+      !mobileError && 
+      !addressError && 
+      !designationError
     );
   };
 
@@ -154,7 +215,7 @@ const Register = () => {
       return;
     }
     setIsLoading(true);
-    const success = register(name, email, password, role); // Add role to register call
+    const success = register(name, email, password, role, mobile, address, designation); // Add new fields to register call
     if (success) {
       navigate("/rooms");
     }
@@ -253,6 +314,88 @@ const Register = () => {
               </select>
               {formErrors.role && (
                 <p className="mt-1 text-sm text-red-400">{formErrors.role}</p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="mobile"
+                className="block text-sm font-medium text-gray-200"
+              >
+                Mobile Number
+              </label>
+              <input
+                id="mobile"
+                name="mobile"
+                type="tel"
+                autoComplete="tel"
+                required
+                value={mobile}
+                onChange={handleInputChange}
+                onBlur={() =>
+                  setFormErrors({ ...formErrors, mobile: validateMobile(mobile) })
+                }
+                className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
+                  formErrors.mobile
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
+                }`}
+              />
+              {formErrors.mobile && (
+                <p className="mt-1 text-sm text-red-400">{formErrors.mobile}</p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="address"
+                className="block text-sm font-medium text-gray-200"
+              >
+                Address
+              </label>
+              <textarea
+                id="address"
+                name="address"
+                required
+                value={address}
+                onChange={handleInputChange}
+                onBlur={() =>
+                  setFormErrors({ ...formErrors, address: validateAddress(address) })
+                }
+                rows="3"
+                className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
+                  formErrors.address
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
+                }`}
+              />
+              {formErrors.address && (
+                <p className="mt-1 text-sm text-red-400">{formErrors.address}</p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="designation"
+                className="block text-sm font-medium text-gray-200"
+              >
+                Designation
+              </label>
+              <input
+                id="designation"
+                name="designation"
+                type="text"
+                required
+                value={designation}
+                onChange={handleInputChange}
+                onBlur={() =>
+                  setFormErrors({ ...formErrors, designation: validateDesignation(designation) })
+                }
+                className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
+                  formErrors.designation
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
+                }`}
+              />
+              {formErrors.designation && (
+                <p className="mt-1 text-sm text-red-400">{formErrors.designation}</p>
               )}
             </div>
             <div>

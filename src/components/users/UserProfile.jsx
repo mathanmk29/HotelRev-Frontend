@@ -7,6 +7,9 @@ const UserProfile = () => {
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
+    mobile: user?.mobile || "",
+    address: user?.address || "",
+    designation: user?.designation || "",
     password: "",
     confirmPassword: "",
   });
@@ -112,19 +115,33 @@ const UserProfile = () => {
             </h2>
           </div>
           <div className="p-6 space-y-5">
-            {["name", "email"].map((field) => (
+            {["name", "email", "mobile", "designation"].map((field) => (
               <div key={field}>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                  {field === "mobile" ? "Mobile Number" : field.charAt(0).toUpperCase() + field.slice(1)}
                 </label>
                 <input
                   name={field}
+                  type={field === "mobile" ? "tel" : "text"}
                   value={formData[field]}
                   onChange={handleFormChange}
                   className="input-field"
                 />
               </div>
             ))}
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Address
+              </label>
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleFormChange}
+                className="input-field"
+                rows="3"
+              />
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {["password", "confirmPassword"].map((field) => (
@@ -219,11 +236,29 @@ const UserProfile = () => {
                   </h4>
                   <p className="text-white text-lg">{user.name}</p>
                 </div>
-                <div className="pb-4">
+                <div className="border-b border-gray-700 pb-4">
                   <h4 className="text-sm font-medium text-gray-400 mb-1">
                     Email Address
                   </h4>
                   <p className="text-white text-lg">{user.email}</p>
+                </div>
+                <div className="border-b border-gray-700 pb-4">
+                  <h4 className="text-sm font-medium text-gray-400 mb-1">
+                    Mobile Number
+                  </h4>
+                  <p className="text-white text-lg">{user.mobile || "Not provided"}</p>
+                </div>
+                <div className="border-b border-gray-700 pb-4">
+                  <h4 className="text-sm font-medium text-gray-400 mb-1">
+                    Designation
+                  </h4>
+                  <p className="text-white text-lg">{user.designation || "Not provided"}</p>
+                </div>
+                <div className="pb-4">
+                  <h4 className="text-sm font-medium text-gray-400 mb-1">
+                    Address
+                  </h4>
+                  <p className="text-white text-lg">{user.address || "Not provided"}</p>
                 </div>
               </div>
             </div>

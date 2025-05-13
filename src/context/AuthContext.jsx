@@ -13,7 +13,26 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem("hotelUser");
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        let parsedUser = JSON.parse(storedUser);
+        
+        // Check if the user is missing the new fields (mobile, address, designation)
+        if (parsedUser && parsedUser.id && (!parsedUser.mobile || !parsedUser.address || !parsedUser.designation)) {
+          // Find the user in the mock data to get the updated fields
+          const updatedUserData = users.find(u => u.id === parsedUser.id);
+          if (updatedUserData) {
+            // Add the missing fields
+            parsedUser = {
+              ...parsedUser,
+              mobile: updatedUserData.mobile || "",
+              address: updatedUserData.address || "",
+              designation: updatedUserData.designation || "",
+            };
+            // Update localStorage with the enhanced user data
+            localStorage.setItem("hotelUser", JSON.stringify(parsedUser));
+          }
+        }
+        
+        setUser(parsedUser);
       } catch (e) {
         console.error("Failed to parse stored user", e);
         localStorage.removeItem("hotelUser");
@@ -42,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = (name, email, password, role = "staff") => {
+  const register = (name, email, password, role = "staff", mobile = "", address = "", designation = "") => {
     setError(null);
 
     // Check if user already exists
@@ -59,6 +78,9 @@ export const AuthProvider = ({ children }) => {
       email,
       password, // In real app, this would be hashed
       role,
+      mobile,
+      address,
+      designation,
       createdAt: new Date().toISOString(),
     };
 
