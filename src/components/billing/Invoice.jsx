@@ -4,6 +4,7 @@ import { bookings } from "../../data/bookings";
 import { rooms } from "../../data/rooms";
 import { customers } from "../../data/customers";
 import { getBillByBookingId } from "../../data/bills";
+import PaymentModal from "./PaymentModal";
 
 function Invoice() {
   const { id } = useParams();
