@@ -23,7 +23,7 @@ const RoomCard = ({ room }) => {
           <h3 className="text-lg font-medium text-white">Room {room.number}</h3>
           <p className="text-lg font-semibold text-white">${room.pricePerNight}<span className="text-sm text-gray-400">/night</span></p>
         </div>
-        <p className="mt-1 text-sm text-gray-400">{room.type}</p>
+
         
         <div className="mt-3">
           <div className="flex items-center text-sm text-gray-300">

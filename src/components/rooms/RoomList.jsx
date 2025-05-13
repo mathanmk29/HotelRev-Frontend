@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import {
   rooms,
-  roomTypes,
   roomStatuses,
   getStatusByValue,
 } from "../../data/rooms";
@@ -135,7 +134,7 @@ const RoomList = () => {
                     <h3 className="text-lg font-semibold text-white">
                       Room {room.number}
                     </h3>
-                    <p className="text-sm text-gray-400">{room.type}</p>
+
                   </div>
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.color.replace(

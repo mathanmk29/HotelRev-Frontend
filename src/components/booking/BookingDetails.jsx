@@ -168,10 +168,7 @@ const BookingDetails = () => {
                 <p className="text-sm text-gray-400">Room Number</p>
                 <p className="font-medium text-white">{booking.room?.number || "N/A"}</p>
               </div>
-              <div>
-                <p className="text-sm text-gray-400">Room Type</p>
-                <p className="font-medium text-white">{booking.room?.type || "N/A"}</p>
-              </div>
+
               <div>
                 <p className="text-sm text-gray-400">Floor</p>
                 <p className="font-medium text-white">{booking.room?.floor || "N/A"}</p>
@@ -213,7 +210,7 @@ const BookingDetails = () => {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium text-white">
-                            {booking.roomType} Room
+                            Room
                           </p>
                           <div className="text-sm text-gray-400">
                             {formatDate(booking.checkIn)} -{" "}

@@ -55,7 +55,7 @@ export const customerBooking = [
         id: "booking-101",
         checkIn: "2025-04-10T15:00:00.000Z",
         checkOut: "2025-04-12T11:00:00.000Z",
-        roomType: "Deluxe",
+
         roomId: "room-2",
         totalAmount: 240,
         status: "confirmed",
@@ -69,7 +69,7 @@ export const customerBooking = [
         id: "booking-102",
         checkIn: "2025-03-20T15:00:00.000Z",
         checkOut: "2025-03-25T11:00:00.000Z",
-        roomType: "Suite",
+
         roomId: "room-3",
         totalAmount: 1200,
         status: "confirmed",
@@ -83,7 +83,7 @@ export const customerBooking = [
         id: "booking-103",
         checkIn: "2025-01-10T15:00:00.000Z",
         checkOut: "2025-01-12T11:00:00.000Z",
-        roomType: "Standard",
+
         roomId: "room-1",
         totalAmount: 300,
         status: "confirmed",
@@ -97,7 +97,7 @@ export const customerBooking = [
         id: "booking-104",
         checkIn: "2025-04-05T15:00:00.000Z",
         checkOut: "2025-04-10T11:00:00.000Z",
-        roomType: "Executive",
+
         roomId: null,
         totalAmount: 1500,
         status: "confirmed",
@@ -111,7 +111,7 @@ export const customerBooking = [
         id: "booking-105",
         checkIn: "2025-02-05T15:00:00.000Z",
         checkOut: "2025-02-07T11:00:00.000Z",
-        roomType: "Deluxe",
+
         roomId: "room-2",
         totalAmount: 450,
         status: "confirmed",

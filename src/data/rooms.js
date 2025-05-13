@@ -3,7 +3,6 @@ export const rooms = [
   {
     id: "room-1",
     number: "101",
-    type: "Standard",
     beds: {
       single: 1,
       double: 1,
@@ -13,12 +12,11 @@ export const rooms = [
     features: ["TV", "WiFi", "Air Conditioning", "Mini Bar"],
     status: "available",
     floor: 1,
-    description: "A comfortable standard room with modern amenities.",
+    description: "A comfortable room with modern amenities.",
   },
   {
     id: "room-2",
     number: "102",
-    type: "Deluxe",
     beds: {
       queen: 1,
     },
@@ -34,12 +32,11 @@ export const rooms = [
     ],
     status: "occupied",
     floor: 1,
-    description: "A luxurious deluxe room with sea view.",
+    description: "A luxurious room with sea view.",
   },
   {
     id: "room-3",
     number: "201",
-    type: "Suite",
     beds: {
       king: 1,
     },
@@ -56,12 +53,11 @@ export const rooms = [
     ],
     status: "available",
     floor: 2,
-    description: "An elegant suite with mountain view and private jacuzzi.",
+    description: "An elegant room with mountain view and private jacuzzi.",
   },
   {
     id: "room-4",
     number: "202",
-    type: "Family Suite",
     beds: {
       queen: 1,
       single: 2,
@@ -78,12 +74,11 @@ export const rooms = [
     ],
     status: "maintenance",
     floor: 2,
-    description: "A spacious family suite with connecting rooms.",
+    description: "A spacious room with connecting rooms.",
   },
   {
     id: "room-5",
     number: "301",
-    type: "Presidential Suite",
     beds: {
       king: 1,
     },
@@ -108,7 +103,6 @@ export const rooms = [
   {
     id: "room-6",
     number: "302",
-    type: "Standard",
     beds: {
       double: 2,
     },
@@ -117,12 +111,9 @@ export const rooms = [
     features: ["TV", "WiFi", "Air Conditioning", "Mini Bar"],
     status: "occupied",
     floor: 3,
-    description: "A cozy standard room, perfect for families.",
+    description: "A cozy room, perfect for families.",
   },
 ];
-
-// Get all room types
-export const roomTypes = [...new Set(rooms.map((room) => room.type))];
 
 // Get room statuses
 export const roomStatuses = [
@@ -160,9 +151,7 @@ export const addRoom = (roomData) => {
   const newRoom = {
     id: `room-${rooms.length + 1}`,
     ...roomData,
-    description:
-      roomData.description ||
-      `A comfortable ${roomData.type.toLowerCase()} room.`,
+    description: roomData.description || `A comfortable room.`,
   };
   rooms.push(newRoom);
   return newRoom;

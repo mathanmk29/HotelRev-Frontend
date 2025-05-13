@@ -84,7 +84,7 @@ export default function RoomBookForm() {
         ...formData,
         pricePerNight: room.pricePerNight,
         roomNumber: room.number,
-        roomType: room.type,
+
         totalAmount: bill.total,
         checkIn: `${formData.checkIn}T15:00:00.000Z`,
         checkOut: `${formData.checkOut}T11:00:00.000Z`,

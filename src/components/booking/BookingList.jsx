@@ -153,9 +153,7 @@ function BookingList() {
                   <div className="text-sm text-white">
                     Room {booking.room?.number}
                   </div>
-                  <div className="text-sm text-gray-400">
-                    {booking.roomType}
-                  </div>
+
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-white">

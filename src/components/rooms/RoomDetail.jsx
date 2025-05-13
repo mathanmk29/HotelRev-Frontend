@@ -13,7 +13,7 @@ const RoomDetail = () => {
   const [formData, setFormData] = useState({
     status: "",
     pricePerNight: 0,
-    type: "",
+
     capacity: 0,
     floor: 1,
     features: [],
@@ -29,7 +29,7 @@ const RoomDetail = () => {
       setFormData({
         status: foundRoom.status,
         pricePerNight: foundRoom.pricePerNight,
-        type: foundRoom.type,
+
         capacity: foundRoom.capacity,
         floor: foundRoom.floor,
         features: [...foundRoom.features],
@@ -75,7 +75,7 @@ const RoomDetail = () => {
         ...formData,
         description:
           formData.description ||
-          `A comfortable ${formData.type.toLowerCase()} room.`,
+          `A comfortable room.`,
       };
       setRoom(rooms[roomIndex]);
     }
@@ -184,23 +184,6 @@ const RoomDetail = () => {
                     </option>
                   ))}
                 </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="type"
-                  className="block text-sm font-medium text-gray-400"
-                >
-                  Room Type
-                </label>
-                <input
-                  type="text"
-                  name="type"
-                  id="type"
-                  value={formData.type}
-                  onChange={handleFormChange}
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
-                />
               </div>
 
               <div>
@@ -331,7 +314,7 @@ const RoomDetail = () => {
                 <h2 className="text-xl font-bold text-white">
                   Room {room.number}
                 </h2>
-                <p className="text-sm text-gray-400">{room.type}</p>
+
               </div>
               <span
                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.color.replace(
@@ -427,7 +410,7 @@ const RoomDetail = () => {
                   </h3>
                   <p className="mt-2 text-gray-300">
                     {room.description ||
-                      `This ${room.type.toLowerCase()} room offers comfortable
+                      `This room offers comfortable
                     accommodations for up to ${
                       room.capacity
                     } guests. Perfect for

@@ -51,7 +51,7 @@ export const createBooking = (bookingData) => {
     id: bookingId, // Use consistent ID format
     checkIn: newBooking.checkIn,
     checkOut: newBooking.checkOut,
-    roomType: newBooking.roomType,
+
     roomId: newBooking.roomId,
     totalAmount: newBooking.bill.total,
     status: "confirmed",

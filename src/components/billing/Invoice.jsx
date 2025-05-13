@@ -130,7 +130,7 @@ function Invoice() {
                     <p className="text-lg font-medium text-gray-900">
                       Room {invoice.room.number}
                     </p>
-                    <p className="text-sm text-gray-600">{invoice.room.type}</p>
+
                   </div>
                 </div>
               </div>

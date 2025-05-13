@@ -118,9 +118,7 @@ function BookingConfirmation() {
                     <p className="text-lg font-medium text-white">
                       Room {bookingDetails.room.number}
                     </p>
-                    <p className="text-sm text-gray-400">
-                      {bookingDetails.room.type}
-                    </p>
+
                   </div>
                 </div>
               </div>

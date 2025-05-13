@@ -117,9 +117,7 @@ function BillingList() {
                   <div className="text-sm text-gray-900">
                     Room {billing.room?.number}
                   </div>
-                  <div className="text-sm text-gray-500">
-                    {billing.roomType}
-                  </div>
+
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">

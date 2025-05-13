@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { roomStatuses, roomTypes, addRoom } from "../../data/rooms";
+import { roomStatuses, addRoom } from "../../data/rooms";
 
 export default function AddRoom() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     number: "",
     status: "available",
-    type: roomTypes[0], // Set default to first room type
+
     pricePerNight: 0,
     capacity: 1,
     floor: 1,
@@ -51,7 +51,7 @@ export default function AddRoom() {
       ...formData,
       description:
         formData.description ||
-        `A comfortable ${formData.type.toLowerCase()} room.`,
+        `A comfortable room.`,
     });
     navigate(`/rooms/${newRoom.id}`);
   };
@@ -107,24 +107,7 @@ export default function AddRoom() {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-400">
-                Room Type
-              </label>
-              <select
-                name="type"
-                required
-                value={formData.type}
-                onChange={handleFormChange}
-                className="mt-1 block w-full rounded-md border border-gray-600 bg-gray-700 text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
-              >
-                {roomTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-            </div>
+
 
             <div>
               <label className="block text-sm font-medium text-gray-400">
@@ -238,7 +221,7 @@ export default function AddRoom() {
               rows="4"
               value={formData.description}
               onChange={handleFormChange}
-              placeholder={`A comfortable ${formData.type.toLowerCase()} room.`}
+              placeholder={`A comfortable room.`}
               className="mt-1 block w-full rounded-md border border-gray-600 bg-gray-700 text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
             />
           </div>
