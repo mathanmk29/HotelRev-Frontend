@@ -10,14 +10,16 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("staff"); // Add role state
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    role: "", // Add role error state
   });
-  
+
   // Allow access to sign up page even when logged in
 
   // Validate name
@@ -25,7 +27,8 @@ const Register = () => {
     const nameRegex = /^[A-Za-z\s]+$/;
     if (!name.trim()) return "Name is required";
     if (name.trim().length < 2) return "Name must be at least 2 characters";
-    if (!nameRegex.test(name)) return "Name can only contain letters and spaces";
+    if (!nameRegex.test(name))
+      return "Name can only contain letters and spaces";
     return "";
   };
 
@@ -41,7 +44,7 @@ const Register = () => {
   const validatePassword = (password) => {
     if (!password) return "Password is required";
     if (password.length < 8) return "Password must be at least 8 characters";
-    
+
     const checks = {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
@@ -72,29 +75,50 @@ const Register = () => {
   // Handle input change and validate on the fly
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
-    switch(name) {
+
+    switch (name) {
       case "name":
         setName(value);
-        setFormErrors(prev => ({...prev, name: value.trim() ? "" : "Name is required"}));
+        setFormErrors((prev) => ({
+          ...prev,
+          name: value.trim() ? "" : "Name is required",
+        }));
         break;
       case "email":
         setEmail(value);
-        setFormErrors(prev => ({...prev, email: value.trim() ? "" : "Email is required"}));
+        setFormErrors((prev) => ({
+          ...prev,
+          email: value.trim() ? "" : "Email is required",
+        }));
         break;
       case "password":
         setPassword(value);
-        setFormErrors(prev => ({
-          ...prev, 
+        setFormErrors((prev) => ({
+          ...prev,
           password: value ? "" : "Password is required",
-          confirmPassword: confirmPassword ? (value === confirmPassword ? "" : "Passwords do not match") : prev.confirmPassword
+          confirmPassword: confirmPassword
+            ? value === confirmPassword
+              ? ""
+              : "Passwords do not match"
+            : prev.confirmPassword,
         }));
         break;
       case "confirmPassword":
         setConfirmPassword(value);
-        setFormErrors(prev => ({
-          ...prev, 
-          confirmPassword: password ? (value === password ? "" : "Passwords do not match") : "Please confirm your password"
+        setFormErrors((prev) => ({
+          ...prev,
+          confirmPassword: password
+            ? value === password
+              ? ""
+              : "Passwords do not match"
+            : "Please confirm your password",
+        }));
+        break;
+      case "role":
+        setRole(value);
+        setFormErrors((prev) => ({
+          ...prev,
+          role: value ? "" : "Role is required",
         }));
         break;
       default:
@@ -108,31 +132,32 @@ const Register = () => {
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
     const confirmError = validateConfirmPassword(password, confirmPassword);
+    const roleError = role ? "" : "Role is required";
 
     setFormErrors({
       name: nameError,
       email: emailError,
       password: passwordError,
-      confirmPassword: confirmError
+      confirmPassword: confirmError,
+      role: roleError,
     });
 
-    return !nameError && !emailError && !passwordError && !confirmError;
+    return (
+      !nameError && !emailError && !passwordError && !confirmError && !roleError
+    );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form before submission
+
     if (!validateForm()) {
       return;
     }
     setIsLoading(true);
-    const success = register(name, email, password);
+    const success = register(name, email, password, role); // Add role to register call
     if (success) {
-      // Redirect to rooms page
       navigate("/rooms");
     }
-
     setIsLoading(false);
   };
 
@@ -168,9 +193,13 @@ const Register = () => {
                 required
                 value={name}
                 onChange={handleInputChange}
-                onBlur={() => setFormErrors({...formErrors, name: validateName(name)})}
+                onBlur={() =>
+                  setFormErrors({ ...formErrors, name: validateName(name) })
+                }
                 className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
-                  formErrors.name ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                  formErrors.name
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
                 }`}
               />
               {formErrors.name && (
@@ -192,13 +221,38 @@ const Register = () => {
                 required
                 value={email}
                 onChange={handleInputChange}
-                onBlur={() => setFormErrors({...formErrors, email: validateEmail(email)})}
+                onBlur={() =>
+                  setFormErrors({ ...formErrors, email: validateEmail(email) })
+                }
                 className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
-                  formErrors.email ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                  formErrors.email
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
                 }`}
               />
               {formErrors.email && (
                 <p className="mt-1 text-sm text-red-400">{formErrors.email}</p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="role"
+                className="block text-sm font-medium text-gray-200"
+              >
+                Role
+              </label>
+              <select
+                id="role"
+                name="role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm border-gray-600 focus:border-primary-500 focus:ring-primary-500"
+              >
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+              </select>
+              {formErrors.role && (
+                <p className="mt-1 text-sm text-red-400">{formErrors.role}</p>
               )}
             </div>
             <div>
@@ -216,16 +270,26 @@ const Register = () => {
                 required
                 value={password}
                 onChange={handleInputChange}
-                onBlur={() => setFormErrors({...formErrors, password: validatePassword(password)})}
+                onBlur={() =>
+                  setFormErrors({
+                    ...formErrors,
+                    password: validatePassword(password),
+                  })
+                }
                 className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
-                  formErrors.password ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                  formErrors.password
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
                 }`}
               />
               <p className="mt-1 text-xs text-gray-400">
-                Password must be at least 8 characters and include uppercase, lowercase, number, and special character
+                Password must be at least 8 characters and include uppercase,
+                lowercase, number, and special character
               </p>
               {formErrors.password && (
-                <p className="mt-1 text-sm text-red-400">{formErrors.password}</p>
+                <p className="mt-1 text-sm text-red-400">
+                  {formErrors.password}
+                </p>
               )}
             </div>
             <div>
@@ -243,15 +307,25 @@ const Register = () => {
                 required
                 value={confirmPassword}
                 onChange={handleInputChange}
-                onBlur={() => setFormErrors({
-                  ...formErrors, 
-                  confirmPassword: validateConfirmPassword(password, confirmPassword)
-                })}
-                className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${formErrors.confirmPassword ? 'border-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-primary-500 focus:ring-primary-500'
+                onBlur={() =>
+                  setFormErrors({
+                    ...formErrors,
+                    confirmPassword: validateConfirmPassword(
+                      password,
+                      confirmPassword
+                    ),
+                  })
+                }
+                className={`block w-full px-3 py-2 mt-1 border rounded-md shadow-sm appearance-none bg-gray-700 text-white focus:outline-none sm:text-sm ${
+                  formErrors.confirmPassword
+                    ? "border-red-600 focus:border-red-500 focus:ring-red-500"
+                    : "border-gray-600 focus:border-primary-500 focus:ring-primary-500"
                 }`}
               />
               {formErrors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-400">{formErrors.confirmPassword}</p>
+                <p className="mt-1 text-sm text-red-400">
+                  {formErrors.confirmPassword}
+                </p>
               )}
             </div>
           </div>

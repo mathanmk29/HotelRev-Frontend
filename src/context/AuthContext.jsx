@@ -57,13 +57,17 @@ export const AuthProvider = ({ children }) => {
       id: `user-${Date.now()}`,
       name,
       email,
+      password, // In real app, this would be hashed
       role,
       createdAt: new Date().toISOString(),
     };
 
-    // Remove password from stored user data
-    setUser(newUser);
-    localStorage.setItem("hotelUser", JSON.stringify(newUser));
+    users.push(newUser);
+
+    // Remove password from stored user data for security
+    const { password: _, ...userWithoutPassword } = newUser;
+    setUser(userWithoutPassword);
+    localStorage.setItem("hotelUser", JSON.stringify(userWithoutPassword));
     return true;
   };
 
