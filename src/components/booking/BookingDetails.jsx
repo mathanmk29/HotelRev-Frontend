@@ -3,9 +3,10 @@ import { useParams, Link } from "react-router-dom";
 import { rooms } from "../../data/rooms";
 import {
   customers,
-  customerBooking,
   getCustomerBookingById,
 } from "../../data/customers";
+import { bookings } from "../../data/bookings";
+import { getBillByBookingId } from "../../data/bills";
 
 const BookingDetails = () => {
   const { id } = useParams();
@@ -16,45 +17,40 @@ const BookingDetails = () => {
 
   useEffect(() => {
     try {
-      // Remove the BILL- format check since we're using booking ID directly
-      const bookingId = id;
-
-      // Find booking in customerBooking data
-      let foundBooking = null;
-      let foundCustomer = null;
-      let foundRoom = null;
-
-      for (const cb of customerBooking) {
-        const booking = cb.bookings.find((b) => b.id === bookingId);
-        if (booking) {
-          foundBooking = booking;
-          foundCustomer = customers.find((c) => c.id === cb.customerId);
-          foundRoom = rooms.find((r) => r.id === booking.roomId);
-          break;
+      // Find booking directly in the bookings array
+      const foundBooking = bookings.find(b => b.id === id);
+      
+      if (foundBooking) {
+        const foundCustomer = customers.find(c => c.id === foundBooking.customerId);
+        const foundRoom = rooms.find(r => r.id === foundBooking.roomId);
+        
+        const foundBill = getBillByBookingId(foundBooking.id);
+        
+        setBooking({
+          id: foundBooking.id,
+          checkIn: foundBooking.checkIn,
+          checkOut: foundBooking.checkOut,
+          status: foundBooking.status,
+          roomId: foundBooking.roomId,
+          totalAmount: foundBill?.total || 0,
+          customer: foundCustomer,
+          room: foundRoom,
+        });
+        
+        // Get customer booking history (already implemented to use the new model)
+        if (foundCustomer) {
+          const customerBookingHistory = getCustomerBookingById(foundCustomer.id);
+          
+          // Filter out current booking from history
+          const otherBookings = customerBookingHistory.bookings.filter(
+            (b) => b.id !== id
+          );
+          
+          setCustomerBookings(customerBookingHistory.bookings || []);
         }
+      } else {
+        setError("Booking not found");
       }
-
-      if (!foundBooking) {
-        setError("Booking record not found");
-        setLoading(false);
-        return;
-      }
-
-      if (!foundCustomer) {
-        setError("Customer not found");
-        setLoading(false);
-        return;
-      }
-
-      // Get customer's booking history
-      const customerBookingHistory = getCustomerBookingById(foundCustomer.id);
-
-      setBooking({
-        ...foundBooking,
-        customer: foundCustomer,
-        room: foundRoom,
-      });
-      setCustomerBookings(customerBookingHistory.bookings || []);
     } catch (err) {
       setError("Failed to load booking details");
     } finally {

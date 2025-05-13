@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { bookings } from "../../data/bookings";
 import { rooms } from "../../data/rooms";
 import { customers } from "../../data/customers";
+import { getBillByBookingId } from "../../data/bills";
 
 function Invoice() {
   const { id } = useParams();
@@ -32,10 +33,17 @@ function Invoice() {
         return;
       }
 
+      // Get bill data from bills.js
+      const bill = getBillByBookingId(booking.id);
+      if (!bill) {
+        setError("Bill data not found");
+        return;
+      }
+      
       // Use the price from booking data instead of room data
       const pricePerNight = booking.pricePerNight || room.pricePerNight;
-      setStayDuration(booking.bill.nights);
-      setTotalRoomCost(booking.bill.roomCharge);
+      setStayDuration(bill.nights);
+      setTotalRoomCost(bill.roomCharge);
 
       const invoiceData = {
         ...booking,
@@ -44,7 +52,7 @@ function Invoice() {
           price: pricePerNight, // Use stored price from booking
         },
         customer,
-        bill: booking.bill,
+        bill: bill,
         extraCharges: booking.extraCharges || 0,
       };
 

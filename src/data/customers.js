@@ -1,4 +1,7 @@
 // customers.js
+import { bookings } from './bookings';
+import { getBillByBookingId } from './bills';
+
 export const customers = [
   {
     id: "customer-1",
@@ -47,79 +50,6 @@ export const customers = [
   },
 ];
 
-export const customerBooking = [
-  {
-    customerId: "customer-1",
-    bookings: [
-      {
-        id: "booking-101",
-        checkIn: "2025-04-10T15:00:00.000Z",
-        checkOut: "2025-04-12T11:00:00.000Z",
-
-        roomId: "room-2",
-        totalAmount: 240,
-        status: "confirmed",
-      },
-    ],
-  },
-  {
-    customerId: "customer-2",
-    bookings: [
-      {
-        id: "booking-102",
-        checkIn: "2025-03-20T15:00:00.000Z",
-        checkOut: "2025-03-25T11:00:00.000Z",
-
-        roomId: "room-3",
-        totalAmount: 1200,
-        status: "confirmed",
-      },
-    ],
-  },
-  {
-    customerId: "customer-3",
-    bookings: [
-      {
-        id: "booking-103",
-        checkIn: "2025-01-10T15:00:00.000Z",
-        checkOut: "2025-01-12T11:00:00.000Z",
-
-        roomId: "room-1",
-        totalAmount: 300,
-        status: "confirmed",
-      },
-    ],
-  },
-  {
-    customerId: "customer-4",
-    bookings: [
-      {
-        id: "booking-104",
-        checkIn: "2025-04-05T15:00:00.000Z",
-        checkOut: "2025-04-10T11:00:00.000Z",
-
-        roomId: null,
-        totalAmount: 1500,
-        status: "confirmed",
-      },
-    ],
-  },
-  {
-    customerId: "customer-5",
-    bookings: [
-      {
-        id: "booking-105",
-        checkIn: "2025-02-05T15:00:00.000Z",
-        checkOut: "2025-02-07T11:00:00.000Z",
-
-        roomId: "room-2",
-        totalAmount: 450,
-        status: "confirmed",
-      },
-    ],
-  },
-];
-
 // Helper functions for customers
 export const addCustomer = (customerData) => {
   const newCustomer = {
@@ -153,12 +83,27 @@ export const getCustomerById = (id) => {
 };
 
 export const getCustomerBookingById = (customerId) => {
-  return (
-    customerBooking.find((booking) => booking.customerId === customerId) || {
-      customerId,
-      bookings: [],
-    }
-  );
+  // Find all bookings for this customer
+  const customerBookings = bookings.filter(booking => booking.customerId === customerId);
+  
+  // Map the bookings to the format expected by the frontend
+  const formattedBookings = customerBookings.map(booking => {
+    const bill = getBillByBookingId(booking.id);
+    return {
+      id: booking.id,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      roomId: booking.roomId,
+      totalAmount: bill?.total || 0,
+      status: booking.status
+    };
+  });
+  
+  // Return in the format expected by the frontend
+  return {
+    customerId,
+    bookings: formattedBookings
+  };
 };
 
 export const updateCustomerStatus = (customerId, isCurrentGuest) => {

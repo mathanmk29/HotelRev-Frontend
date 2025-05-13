@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { customers, getCustomerBookingById } from "../../data/customers";
+import { bookings } from "../../data/bookings";
 import { rooms } from "../../data/rooms";
 
 const CustomerDetail = () => {
@@ -30,9 +31,10 @@ const CustomerDetail = () => {
         address: foundCustomer.address,
       });
 
-      // Get customer booking
-      const customerBooking = getCustomerBookingById(id);
-      setHistory(customerBooking);
+      // Get customer booking using the updated getCustomerBookingById function
+      // This now pulls directly from the bookings array
+      const customerBookingHistory = getCustomerBookingById(id);
+      setHistory(customerBookingHistory);
     }
 
     setLoading(false);

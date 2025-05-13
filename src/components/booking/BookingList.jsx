@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { customerBooking, customers } from "../../data/customers";
+import { customers, getCustomerBookingById } from "../../data/customers";
+import { bookings } from "../../data/bookings";
 import { rooms } from "../../data/rooms";
+import { getBillByBookingId } from "../../data/bills";
 
 function BookingList() {
   const [filterStatus, setFilterStatus] = useState("all");
@@ -22,19 +24,22 @@ function BookingList() {
     }
   }, []);
 
-  // Get all bookings by combining customer bookings
-  const allBookings = customerBooking.flatMap((cb) => {
-    const customer = customers.find((c) => c.id === cb.customerId);
-    return cb.bookings.map((booking) => {
-      const room = rooms.find((r) => r.id === booking.roomId);
-      return {
-        ...booking,
-        customer,
-        room,
-        // Use the original booking ID instead of creating a new format
-        bookingId: booking.id,
-      };
-    });
+  // Get all bookings directly from the bookings array
+  const allBookings = bookings.map((booking) => {
+    const customer = customers.find((c) => c.id === booking.customerId);
+    const room = rooms.find((r) => r.id === booking.roomId);
+    const bill = getBillByBookingId(booking.id);
+    return {
+      id: booking.id,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      status: booking.status,
+      roomId: booking.roomId,
+      totalAmount: bill?.total || 0,
+      customer,
+      room,
+      bookingId: booking.id, // using only id as the identifier
+    };
   });
 
   // Update filter logic to include customer filter
@@ -49,7 +54,7 @@ function BookingList() {
       (booking.customer?.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-        booking.bookingId.toLowerCase().includes(searchTerm.toLowerCase()));
+        booking.id.toLowerCase().includes(searchTerm.toLowerCase()));
     return matchesStatus && (matchesCustomer || matchesSearch);
   });
 
@@ -139,7 +144,7 @@ function BookingList() {
             {filteredBookings.map((booking) => (
               <tr key={booking.id} className="hover:bg-gray-700">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                  {booking.bookingId}
+                  {booking.id}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-white">

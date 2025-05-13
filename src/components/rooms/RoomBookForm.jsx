@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { rooms } from "../../data/rooms";
 import { customers } from "../../data/customers";
-import { createBooking, calculateBill } from "../../data/bookings";
+import { createBooking } from "../../data/bookings";
+import { calculateBill } from "../../data/bills";
 
 const inputClassName =
   "mt-1 block w-full px-4 py-3 rounded-lg border border-gray-600 shadow-sm " +
@@ -88,12 +89,7 @@ export default function RoomBookForm() {
         totalAmount: bill.total,
         checkIn: `${formData.checkIn}T15:00:00.000Z`,
         checkOut: `${formData.checkOut}T11:00:00.000Z`,
-        bill: {
-          roomCharge: bill.roomCharge,
-          tax: bill.tax,
-          total: bill.total,
-          nights: bill.nights,
-        },
+        // Bill will be created automatically in the createBooking function
       });
 
       navigate(`/bookings/${booking.id}/confirmation`);

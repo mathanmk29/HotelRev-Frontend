@@ -1,24 +1,32 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { customerBooking, customers } from "../../data/customers";
+import { customers, getCustomerBookingById } from "../../data/customers";
+import { bookings } from "../../data/bookings";
 import { rooms } from "../../data/rooms";
+import { bills, getBillByBookingId } from "../../data/bills";
 
 function BillingList() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Get all billings by combining customer bookings
-  const allBillings = customerBooking.flatMap((cb) => {
-    const customer = customers.find((c) => c.id === cb.customerId);
-    return cb.bookings.map((booking) => {
-      const room = rooms.find((r) => r.id === booking.roomId);
-      return {
-        ...booking,
-        customer,
-        room,
-        billingId: `BILL-${booking.id.split("-")[1]}`,
-      };
-    });
+  // Get all billings by joining bookings and bills data
+  const allBillings = bookings.map((booking) => {
+    const customer = customers.find((c) => c.id === booking.customerId);
+    const room = rooms.find((r) => r.id === booking.roomId);
+    const bill = getBillByBookingId(booking.id);
+    
+    return {
+      id: booking.id,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      status: booking.status,
+      paymentStatus: booking.paymentStatus || (booking.status === "checked_out" ? "paid" : "pending"),
+      roomId: booking.roomId,
+      totalAmount: bill?.total || 0,
+      customer,
+      room,
+      billingId: `BILL-${booking.id.split("-")[1]}`,
+    };
   });
 
   // Filter billings based on status and search term

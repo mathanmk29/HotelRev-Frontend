@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { bookings } from "../../data/bookings";
 import { customers } from "../../data/customers";
 import { rooms } from "../../data/rooms";
+import { getBillByBookingId } from "../../data/bills";
 import ConfirmationModal from "./ConfirmationModal";
 
 function BookingConfirmation() {
@@ -15,7 +16,7 @@ function BookingConfirmation() {
 
   useEffect(() => {
     try {
-      const booking = bookings.find((b) => b.bookingId === id);
+      const booking = bookings.find((b) => b.id === id);
       if (!booking) {
         setError("Booking not found");
         return;
@@ -29,10 +30,13 @@ function BookingConfirmation() {
         return;
       }
 
+      const bill = getBillByBookingId(booking.id);
+      
       setBookingDetails({
         ...booking,
         room,
         customer,
+        bill,
       });
     } catch (err) {
       console.error("Error in BookingConfirmation:", err);

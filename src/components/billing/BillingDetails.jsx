@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { rooms } from "../../data/rooms";
-import { customers, customerBooking, getCustomerBookingById } from "../../data/customers";
+import { customers, getCustomerBookingById } from "../../data/customers";
+import { bookings } from "../../data/bookings";
+import { getBillByBookingId } from "../../data/bills";
 
 const BillingDetails = () => {
   const { id } = useParams();
@@ -20,19 +22,16 @@ const BillingDetails = () => {
       }
       const bookingId = "booking-" + id.split("-")[1];
 
-      // Find booking in customerBooking data
-      let foundBooking = null;
+      // Find booking directly in the bookings array
+      const foundBooking = bookings.find(b => b.id === bookingId);
       let foundCustomer = null;
       let foundRoom = null;
-
-      for (const cb of customerBooking) {
-        const booking = cb.bookings.find((b) => b.id === bookingId);
-        if (booking) {
-          foundBooking = booking;
-          foundCustomer = customers.find((c) => c.id === cb.customerId);
-          foundRoom = rooms.find((r) => r.id === booking.roomId);
-          break;
-        }
+      let foundBill = null;
+      
+      if (foundBooking) {
+        foundCustomer = customers.find(c => c.id === foundBooking.customerId);
+        foundRoom = rooms.find(r => r.id === foundBooking.roomId);
+        foundBill = getBillByBookingId(foundBooking.id);
       }
 
       if (!foundBooking) {
@@ -51,7 +50,14 @@ const BillingDetails = () => {
       const customerBookingHistory = getCustomerBookingById(foundCustomer.id);
 
       setBilling({
-        ...foundBooking,
+        id: foundBooking.id,
+        // no need for separate bookingId since we're using id consistently
+        billingId: id,
+        checkIn: foundBooking.checkIn,
+        checkOut: foundBooking.checkOut,
+        status: foundBooking.status,
+        paymentStatus: foundBooking.paymentStatus || (foundBooking.status === "checked_out" ? "paid" : "pending"),
+        totalAmount: foundBill?.total || 0,
         customer: foundCustomer,
         room: foundRoom,
       });
