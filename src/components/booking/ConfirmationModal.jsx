@@ -8,7 +8,7 @@ const ConfirmationModal = ({ bookingDetails }) => {
 
   useEffect(() => {
     // Update customer's currentGuest status
-    const customer = customers.find((c) => c.id === bookingDetails.customer.id);
+    const customer = customers.find((customer) => customer.id === bookingDetails.customer.id);
     if (customer) {
       customer.currentGuest = true;
     }
